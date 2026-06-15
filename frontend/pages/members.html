@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Members List</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    margin:0;
+    font-family:"Segoe UI", Arial, sans-serif;
+    background:url("https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1600&q=80");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
+
+.overlay{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.75);
+    z-index:0;
+}
+
+.container{
+    position:relative;
+    z-index:2;
+}
+
+h2{
+    color:gold;
+    text-align:center;
+    margin-top:20px;
+    font-weight:900;
+}
+
+.form-control{
+    background:rgba(0,0,0,0.85)!important;
+    color:white!important;
+    border:2px solid gold!important;
+}
+
+/* ===== NEW CARD DESIGN ===== */
+.member-card{
+    background:rgba(15,15,15,0.95);
+    border:2px solid gold;
+    border-radius:10px;
+    padding:15px;
+    cursor:pointer;
+    transition:.3s;
+    color:white;
+    font-family:"Segoe UI", Arial, sans-serif;
+}
+
+.member-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 18px gold;
+}
+
+.card-top{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.member-photo{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid gold;
+}
+
+.card-title{
+    font-size:16px;
+    font-weight:bold;
+    color:gold;
+}
+
+.card-sub{
+    font-size:13px;
+    color:#ccc;
+}
+
+.card-box{
+    margin-top:10px;
+    border-top:1px dashed gold;
+    padding-top:10px;
+    font-size:13px;
+}
+
+.status{
+    float:right;
+    padding:3px 8px;
+    border-radius:5px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.active{
+    background:green;
+    color:white;
+}
+
+.inactive{
+    background:red;
+    color:white;
+}
+
+/* modal */
+.modal-content{
+    background:#111827;
+    color:white;
+    border:2px solid gold;
+    border-radius:14px;
+    box-shadow:0 18px 45px rgba(0,0,0,0.45);
+}
+
+.modal-title{
+    color:gold;
+    font-weight:900;
+    letter-spacing:.3px;
+}
+
+.table{
+    color:white;
+}
+
+.member-profile{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.member-profile img{
+    width:145px;
+    height:145px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid gold;
+    box-shadow:0 0 24px rgba(255,215,0,0.25);
+}
+
+.member-profile h4{
+    margin:12px 0 2px;
+    color:#facc15;
+    font-size:24px;
+    font-weight:800;
+}
+
+.member-profile p{
+    margin:0;
+    color:#d1d5db;
+    font-size:14px;
+}
+
+.details-table{
+    font-family:"Segoe UI", Arial, sans-serif;
+    font-size:15px;
+}
+
+.details-table th{
+    color:#facc15;
+    width:38%;
+    font-weight:700;
+}
+
+.details-table td{
+    color:#f9fafb;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="container">
+
+    <h2>👥 MEMBERS LIST</h2>
+
+    <input type="text" class="form-control my-3"
+        placeholder="Search Name / Phone"
+        onkeyup="searchMembers(this.value)">
+
+    <div class="row" id="membersContainer"></div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="memberModal">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+
+<div class="modal-header">
+<h5 class="modal-title">Member Details</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body" id="modalContent"></div>
+
+</div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/api.js"></script>
+
+<script>
+
+let members=[];
+
+async function loadMembers(){
+    members=await getMembers();
+    renderCards(members);
+}
+
+
+function formatDate(dateValue) {
+    const d = new Date(dateValue);
+
+    if (isNaN(d)) return "-";
+
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+
+    return `${day}/${month}/${year}`;
+}
+
+
+
+/* ===== UPDATED CARD UI ONLY ===== */
+function renderCards(data){
+
+    let html="";
+
+    data.forEach(m=>{
+
+        const photo = m.photoUrl || "https://via.placeholder.com/100";
+
+        html+=`
+        <div class="col-md-4 mb-4">
+
+            <div class="member-card" onclick='showMember(${JSON.stringify(m)})'>
+
+                <div class="card-top">
+
+                    <img src="${photo}"
+                        onerror="this.src='https://via.placeholder.com/100'"
+                        class="member-photo">
+
+                    <div>
+                        <div class="card-title">${m.name}</div>
+                        <div class="card-sub">${m.phone}</div>
+                    </div>
+
+                    <span class="status ${m.status==="ACTIVE"?"active":"inactive"}">
+                        ${m.status}
+                    </span>
+
+                </div>
+
+                <div class="card-box">
+
+                    <div>📦 Plan : ${m.plan}</div>
+                    <div>📅 Start : ${formatDate(m.startDate)}</div>
+                    <div>📅 End : ${formatDate(m.endDate)}</div>
+                    </div>
+
+            </div>
+
+        </div>
+        `;
+    });
+
+    document.getElementById("membersContainer").innerHTML=html;
+}
+
+/* ===== MODAL (clean but same data) ===== */
+function showMember(m){
+
+    const photo = m.photoUrl || "https://via.placeholder.com/150";
+
+    document.getElementById("modalContent").innerHTML = `
+
+    <div class="member-profile">
+        <img src="${photo}"
+        onerror="this.src='https://via.placeholder.com/150'"
+        alt="${m.name}">
+        <h4>${m.name}</h4>
+        <p>${m.phone}</p>
+    </div>
+
+    <table class="table table-dark details-table">
+
+      <tr><th>Age</th><td>${m.age}</td></tr>
+      <tr><th>Weight</th><td>${m.weight || "-"}</td></tr>
+      <tr><th>Gender</th><td>${m.gender}</td></tr>
+      <tr><th>Workout</th><td>${m.workoutType}</td></tr>
+      <tr><th>Plan</th><td>${m.plan}</td></tr>
+      <tr><th>Amount</th><td>₹${m.amount}</td></tr>
+      <tr><th>Status</th><td>${m.status}</td></tr>
+      <tr><th>Start Date</th><td>${formatDate(m.startDate)}</td></tr>
+      <tr><th>Expiry Date</th><td>${formatDate(m.endDate)}</td></tr>
+
+
+    </table>
+
+    <button class="btn btn-danger" onclick="removeMember('${m._id}')">
+      Delete Member
+    </button>
+
+    `;
+
+    new bootstrap.Modal(document.getElementById("memberModal")).show();
+}
+
+
+async function removeMember(id) {
+
+    const ok = confirm(
+        "Are you sure you want to delete this member?"
+    );
+
+    if (!ok) return;
+
+    try {
+
+        const result = await deleteMember(id);
+
+        alert(result.message || "Member Deleted");
+
+        bootstrap.Modal
+            .getInstance(
+                document.getElementById("memberModal")
+            )
+            .hide();
+
+        loadMembers();
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert("Delete Failed");
+
+    }
+}
+
+
+function searchMembers(value){
+
+    const filtered=members.filter(m=>
+        m.name.toLowerCase().includes(value.toLowerCase()) ||
+        m.phone.includes(value)
+    );
+
+    renderCards(filtered);
+}
+
+loadMembers();
+
+</script>
+
+</body>
+</html>

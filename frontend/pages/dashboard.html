@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Veer Fitness Dashboard</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+
+    body {
+      margin: 0;
+      font-family: Arial;
+
+      background: url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: white;
+    }
+
+    .overlay {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.65);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .header {
+      text-align: center;
+      padding: 25px;
+    }
+
+    .header h2 {
+      color: gold;
+      font-weight: 900;
+    }
+
+    .header p {
+      color: #ccc;
+    }
+
+    .card-box {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      border: 1px solid rgba(255,215,0,0.2);
+      transition: 0.3s;
+    }
+
+    .card-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px gold;
+    }
+
+    .number {
+      font-size: 30px;
+      font-weight: bold;
+      margin-top: 10px;
+      color: gold;
+    }
+
+    .section-box {
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 16px;
+
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(10px);
+
+      border: 1px solid rgba(255,215,0,0.15);
+    }
+
+    .section-title {
+      color: gold;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .btn-gold {
+      background: linear-gradient(45deg, #ffcc00, #ff8800);
+      color: black;
+      font-weight: bold;
+      border: none;
+      padding: 10px;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+
+    .btn-gold:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 15px gold;
+    }
+
+    .badge-status {
+      padding: 5px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .active { background: green; }
+    .expired { background: red; }
+    .expiring { background: orange; }
+
+  </style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h2>VEER FITNESS CLUB</h2>
+    <p>Where Grit Meets Greatness 💪</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="row">
+
+    <div class="col-md-3 col-6 mb-3">
+      <div class="card-box">
+        TOTAL MEMBERS
+        <div class="number" id="totalMembers">0</div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-6 mb-3">
+      <div class="card-box">
+        ACTIVE MEMBERS
+        <div class="number" id="activeMembers">0</div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-6 mb-3">
+      <div class="card-box">
+        EXPIRED MEMBERS
+        <div class="number" id="expiredMembers">0</div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-6 mb-3">
+      <div class="card-box" onclick="openTransactions()" style="cursor:pointer;">
+        REVENUE
+        <div class="number" id="revenue">₹0</div>
+        <small style="color:gold;">Click to view transactions</small>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EXPIRING ALERT -->
+  <div class="section-box">
+    <div class="section-title">⚠️ EXPIRING IN 2 DAYS</div>
+    <div id="expiringList"></div>
+  </div>
+
+  <!-- ADD MEMBER -->
+  <div class="section-box">
+    <div class="section-title">➕ ADD MEMBER</div>
+    <button class="btn btn-gold w-100" onclick="goAddMember()">Open Add Member Page</button>
+  </div>
+
+  <!-- MEMBERS -->
+  <div class="section-box">
+    <div class="section-title">👥 MEMBERS</div>
+    <button class="btn btn-gold w-100" onclick="goMembers()">View All Members</button>
+  </div>
+
+  <!-- EXPIRY -->
+  <div class="section-box">
+    <div class="section-title">⏰ EXPIRY PANEL</div>
+    <button class="btn btn-gold w-100" onclick="goExpiry()">Open Expiry Dashboard</button>
+  </div>
+
+  <!-- TRANSACTION PANEL -->
+  <div class="section-box" id="transactionBox" style="display:none;">
+
+    <div class="section-title">💰 TRANSACTION HISTORY</div>
+
+    <div class="row">
+
+      <div class="col-md-4 col-12 mb-2">
+        <div class="card-box">
+          TOTAL
+          <div class="number" id="totalRevenueBox">₹0</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-12 mb-2">
+          <div class="card-box">
+            THIS MONTH
+            <div class="number" id="monthlyRevenue">
+             ₹0
+            </div>
+          </div>
+        </div>
+
+      <div class="col-md-4 col-12 mb-2">
+        <div class="card-box">
+          UPI
+          <div class="number" id="upiRevenue">₹0</div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-12 mb-2">
+        <div class="card-box">
+          CASH
+          <div class="number" id="cashRevenue">₹0</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+const BASE_URL = "http://localhost:5000/api";
+
+async function getDashboard() {
+  const res = await fetch(`${BASE_URL}/dashboard`);
+  return await res.json();
+}
+
+async function getExpiring() {
+  const res = await fetch(`${BASE_URL}/auth/expiring`);
+  return await res.json();
+}
+
+/* ✅ FIX: attach to window */
+window.goAddMember = function () {
+  window.location.href = "add-member.html";
+};
+
+window.goMembers = function () {
+  window.location.href = "members.html";
+};
+
+window.goExpiry = function () {
+  window.location.href = "expiry.html";
+};
+
+window.openTransactions = function () {
+  const box = document.getElementById("transactionBox");
+
+  if (box.style.display === "none") {
+    box.style.display = "block";
+    box.scrollIntoView({ behavior: "smooth" });
+  } else {
+    box.style.display = "none";
+  }
+};
+
+/* LOAD DASHBOARD */
+async function loadDashboard() {
+
+  const data = await getDashboard();
+
+  document.getElementById("totalMembers").innerText =
+data.totalMembers || 0;
+
+document.getElementById("activeMembers").innerText =
+data.activeMembers || 0;
+
+document.getElementById("expiredMembers").innerText =
+data.expiredMembers || 0;
+
+document.getElementById("revenue").innerText =
+"₹" + (data.totalRevenue || 0);
+
+
+  document.getElementById("totalRevenueBox").innerText = "₹" + data.totalRevenue;
+  
+  document.getElementById("monthlyRevenue").innerText =
+"₹" + (data.monthlyRevenue || 0);
+
+document.getElementById("upiRevenue").innerText =
+"₹" + (data.upiRevenue || 0);
+
+document.getElementById("cashRevenue").innerText =
+"₹" + (data.cashRevenue || 0);
+}
+
+/* LOAD EXPIRING MEMBERS */
+async function loadExpiring() {
+
+  const data = await getExpiring();
+
+  let html = "";
+
+  data.forEach(m => {
+    html += `
+      <div style="padding:10px; margin:5px; border:1px solid gold; border-radius:10px;">
+        <b>${m.name}</b> - ${m.phone}
+        <span class="badge-status expiring">EXPIRING</span>
+      </div>
+    `;
+  });
+
+  document.getElementById("expiringList").innerHTML = html;
+}
+
+loadDashboard();
+loadExpiring();
+
+</script>
+
+</body>
+</html>

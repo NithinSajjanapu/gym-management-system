@@ -1,0 +1,32 @@
+# Dependencies (frontend + backend)
+node_modules/
+**/node_modules/
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+backend/package-lock.json
+# Build folders
+dist/
+build/
+out/
+
+# Coverage
+coverage/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary
+tmp/
+temp/

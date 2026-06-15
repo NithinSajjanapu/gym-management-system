@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Expiry Management</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    margin:0;
+    font-family:"Segoe UI", Arial, sans-serif;
+    background:url("https://images.unsplash.com/photo-1517963879433-6ad2b056d712?auto=format&fit=crop&w=1600&q=80");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
+
+.overlay{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.75);
+    z-index:0;
+}
+
+.container{
+    position:relative;
+    z-index:2;
+}
+
+h2{
+    color:gold;
+    text-align:center;
+    margin-top:20px;
+    font-weight:900;
+}
+
+.form-control{
+    background:rgba(0,0,0,0.85)!important;
+    color:white!important;
+    border:2px solid gold!important;
+}
+
+.filter-bar{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.filter-bar button{
+    margin:4px;
+}
+
+/* CARD */
+
+.member-card{
+    background:rgba(15,15,15,0.95);
+    border:2px solid gold;
+    border-radius:10px;
+    padding:15px;
+    cursor:pointer;
+    transition:.3s;
+    color:white;
+    font-family:"Segoe UI", Arial, sans-serif;
+}
+
+.member-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 18px gold;
+}
+
+.expired-card{
+    border:2px solid red !important;
+}
+
+.card-top{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.member-photo{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid gold;
+}
+
+.card-title{
+    font-size:16px;
+    font-weight:bold;
+    color:gold;
+}
+
+.card-sub{
+    font-size:13px;
+    color:#ccc;
+}
+
+.card-box{
+    margin-top:10px;
+    border-top:1px dashed gold;
+    padding-top:10px;
+    font-size:13px;
+}
+
+.days-badge{
+    float:right;
+    padding:3px 8px;
+    border-radius:5px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.expired{
+    background:red;
+    color:white;
+}
+
+.expiring{
+    background:orange;
+    color:black;
+}
+
+.active{
+    background:green;
+    color:white;
+}
+
+.modal-content{
+    background:#111827;
+    color:white;
+    border:2px solid gold;
+    border-radius:14px;
+    box-shadow:0 18px 45px rgba(0,0,0,0.45);
+}
+
+.modal-title{
+    color:gold;
+    font-weight:900;
+}
+
+.table{
+    color:white;
+}
+
+.whatsapp-btn{
+    margin-top:10px;
+}
+
+.modal .table th{
+    color:#facc15;
+    width:38%;
+}
+
+.modal .table td{
+    color:#f9fafb;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="container">
+
+<h2>⏰ EXPIRY MANAGEMENT</h2>
+
+<input class="form-control my-3"
+placeholder="Search Name / Phone"
+onkeyup="searchMembers(this.value)">
+
+<div class="filter-bar">
+
+<button class="btn btn-warning btn-sm" onclick="applyFilter('5')">5 Days</button>
+<button class="btn btn-warning btn-sm" onclick="applyFilter('3')">3 Days</button>
+<button class="btn btn-warning btn-sm" onclick="applyFilter('2')">2 Days</button>
+<button class="btn btn-warning btn-sm" onclick="applyFilter('1')">1 Day</button>
+<button class="btn btn-info btn-sm" onclick="applyFilter('today')">Today</button>
+<button class="btn btn-danger btn-sm" onclick="applyFilter('expired')">Expired</button>
+<button class="btn btn-success btn-sm" onclick="applyFilter('')">All</button>
+
+</div>
+
+<div class="row" id="membersContainer"></div>
+
+</div>
+
+<!-- MODAL (UNCHANGED STRUCTURE) -->
+<div class="modal fade" id="memberModal">
+
+<div class="modal-dialog modal-lg">
+
+<div class="modal-content">
+
+<div class="modal-header">
+<h5 class="modal-title">Member Details</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body" id="modalContent"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="../assets/js/api.js"></script>
+
+<script>
+
+let members = [];
+let currentFilter = "";
+let selectedMember = null;
+
+function isToday(date){
+    const d = new Date(date);
+    const today = new Date();
+    return d.toDateString() === today.toDateString();
+}
+
+function formatMessage(m){
+    if(m.daysRemaining < 0){
+        return `Hello ${m.name},
+
+Your Veer Fitness Club membership has expired.
+
+Expired On: ${new Date(m.endDate).toLocaleDateString()}
+
+Please renew your plan to continue training without interruption. We will be happy to help you restart today.`;
+    }
+    return `Hello ${m.name},
+
+Your Veer Fitness Club membership is expiring in ${m.daysRemaining} day(s).
+
+Expiry Date: ${new Date(m.endDate).toLocaleDateString()}
+
+Please renew soon to continue your fitness journey without a break.`;
+}
+
+function openWhatsapp(m){
+    const phone = m.phone;
+    const text = encodeURIComponent(formatMessage(m));
+    const url = `https://wa.me/91${phone}?text=${text}`;
+    window.open(url, "_blank");
+}
+
+async function loadExpiryMembers(){
+
+    const res = await fetch("http://localhost:5000/api/members/expiry-list");
+    let data = await res.json();
+
+    data.sort((a,b)=> a.daysRemaining - b.daysRemaining);
+
+    members = data;
+    applyLocalFilter();
+}
+
+function applyFilter(filter){
+    currentFilter = filter;
+    applyLocalFilter();
+}
+
+function applyLocalFilter(){
+
+    let data = [...members];
+
+    if(currentFilter === "expired"){
+        data = data.filter(m => m.daysRemaining < 0);
+    }
+    else if(currentFilter === "today"){
+        data = data.filter(m => isToday(m.endDate));
+    }
+    else if(currentFilter){
+        data = data.filter(m => m.daysRemaining == currentFilter);
+    }
+
+    renderCards(data);
+}
+
+function renderCards(data){
+
+    let html = "";
+
+    data.forEach(m=>{
+
+        const photo = m.photoUrl || `http://localhost:5000${m.photo}`;
+
+        let badgeClass = m.daysRemaining < 0 ? "expired" :
+                         m.daysRemaining <= 2 ? "expiring" : "active";
+
+        let badgeText = m.daysRemaining < 0 ? "EXPIRED" : `${m.daysRemaining} Days Left`;
+
+        const canWhatsapp = m.daysRemaining <= 2;
+
+        html += `
+        <div class="col-md-4 mb-4">
+
+            <div class="member-card ${m.daysRemaining < 0 ? "expired-card" : ""}"
+            onclick="showMember('${m._id}')">
+
+                <div class="card-top">
+
+                    <img src="${photo}" class="member-photo">
+
+                    <div>
+                        <div class="card-title">${m.name}</div>
+                        <div class="card-sub">${m.phone}</div>
+                    </div>
+
+                    <span class="days-badge ${badgeClass}">
+                        ${badgeText}
+                    </span>
+
+                </div>
+
+                <div class="card-box">
+                    <div>📦 Plan      : ${m.plan} M</div>
+                    <div>📅 Start     : ${new Date(m.startDate).toLocaleDateString()}</div>
+                    <div>📅 End       : ${new Date(m.endDate).toLocaleDateString()}</div>
+                    <div>⏳ Remaining : ${m.daysRemaining} days </div>
+                </div>
+
+                ${canWhatsapp ? `
+                <button class="btn btn-success w-100 mt-2"
+                onclick="event.stopPropagation();openWhatsapp(${JSON.stringify(m).replace(/"/g,'&quot;')})">
+                    WhatsApp Reminder
+                </button>
+                ` : ""}
+
+            </div>
+
+        </div>`;
+    });
+
+    document.getElementById("membersContainer").innerHTML = html;
+}
+
+async function showMember(id){
+
+    const res = await fetch(`http://localhost:5000/api/members/${id}`);
+    const m = await res.json();
+    selectedMember = m;
+
+    const photo = m.photo
+        ? `http://localhost:5000${m.photo}`
+        : "https://via.placeholder.com/150";
+
+    const today = new Date();
+const end = new Date(m.endDate);
+
+today.setHours(0,0,0,0);
+end.setHours(0,0,0,0);
+
+const days = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
+
+const canWhatsapp = days <= 2;
+
+    document.getElementById("modalContent").innerHTML = `
+
+    <center>
+        <img src="${photo}"
+        onerror="this.src='https://via.placeholder.com/150'"
+        style="width:150px;height:150px;border-radius:50%;border:4px solid gold;">
+    </center>
+
+    <br>
+
+    <table class="table table-dark">
+
+      <tr><th>Name</th><td>${m.name}</td></tr>
+      <tr><th>Phone</th><td>${m.phone}</td></tr>
+      <tr><th>Age</th><td>${m.age}</td></tr>
+      <tr><th>Weight</th><td>${m.weight || "-"}</td></tr>
+      <tr><th>Gender</th><td>${m.gender}</td></tr>
+      <tr><th>Workout Type</th><td>${m.workoutType}</td></tr>
+      <tr><th>Plan</th><td>${m.plan}</td></tr>
+      <tr><th>Amount</th><td>₹${m.amount}</td></tr>
+      <tr><th>Status</th><td>${m.status}</td></tr>
+      <tr><th>Start Date</th><td>${new Date(m.startDate).toLocaleDateString()}</td></tr>
+      <tr><th>Expiry Date</th><td>${new Date(m.endDate).toLocaleDateString()}</td></tr>
+
+    </table>
+
+    ${canWhatsapp ? `
+        <button class="btn btn-success w-100 mb-2"
+        onclick='openWhatsapp(${JSON.stringify(m).replace(/"/g,"&quot;")})'>
+            WhatsApp Reminder
+        </button>
+    ` : ""}
+
+    <button class="btn btn-warning w-100 mb-2"
+        onclick="renewMember()">
+        Renew Membership
+    </button>
+
+    <button class="btn btn-danger w-100"
+        onclick="removeMember('${m._id}')">
+        Delete Member
+    </button>
+
+    `;
+
+    new bootstrap.Modal(document.getElementById("memberModal")).show();
+}
+
+function renewMember(){
+    if (selectedMember) {
+        sessionStorage.setItem("renewMember", JSON.stringify(selectedMember));
+    }
+
+    location.href = "./add-member.html?renew=true";
+}
+
+async function removeMember(id){
+    const ok = confirm("Are you sure you want to delete this member?");
+
+    if (!ok) return;
+
+    const res = await fetch(`http://localhost:5000/api/members/${id}`, {
+        method: "DELETE"
+    });
+
+    const result = await res.json();
+
+    alert(result.message || "Member deleted");
+
+    const modal = bootstrap.Modal.getInstance(document.getElementById("memberModal"));
+
+    if (modal) {
+        modal.hide();
+    }
+
+    loadExpiryMembers();
+}
+
+loadExpiryMembers();
+
+</script>
+
+</body>
+</html>
