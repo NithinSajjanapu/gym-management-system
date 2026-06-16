@@ -161,6 +161,7 @@ h2{
 }
 
 </style>
+<link href="../assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -175,21 +176,30 @@ h2{
 placeholder="Search Name / Phone"
 onkeyup="searchMembers(this.value)">
 
-<div class="filter-bar">
+<div class="filter-grid four-three">
+  <button class="btn btn-warning btn-sm" onclick="applyFilter('5')">5 Days</button>
+  <button class="btn btn-warning btn-sm" onclick="applyFilter('3')">3 Days</button>
+  <button class="btn btn-warning btn-sm" onclick="applyFilter('2')">2 Days</button>
+  <button class="btn btn-warning btn-sm" onclick="applyFilter('1')">1 Day</button>
 
-<button class="btn btn-warning btn-sm" onclick="applyFilter('5')">5 Days</button>
-<button class="btn btn-warning btn-sm" onclick="applyFilter('3')">3 Days</button>
-<button class="btn btn-warning btn-sm" onclick="applyFilter('2')">2 Days</button>
-<button class="btn btn-warning btn-sm" onclick="applyFilter('1')">1 Day</button>
-<button class="btn btn-info btn-sm" onclick="applyFilter('today')">Today</button>
-<button class="btn btn-danger btn-sm" onclick="applyFilter('expired')">Expired</button>
-<button class="btn btn-success btn-sm" onclick="applyFilter('')">All</button>
-
+  <div class="filter-break">
+    <button class="btn btn-info btn-sm" onclick="applyFilter('today')">Today</button>
+    <button class="btn btn-danger btn-sm" onclick="applyFilter('expired')">Expired</button>
+    <button class="btn btn-success btn-sm" onclick="applyFilter('')">All</button>
+  </div>
 </div>
 
 <div class="row" id="membersContainer"></div>
 
 </div>
+
+<nav class="bottom-nav">
+  <a href="dashboard.html"><span>⌂</span>Home</a>
+  <a href="members.html"><span>☷</span>Members</a>
+  <a class="add-action" href="add-member.html"><span>+</span></a>
+  <a class="active-link" href="expiry.html"><span>◴</span>Expiry</a>
+  <a href="dashboard.html#transactionBox"><span>≡</span>More</a>
+</nav>
 
 <!-- MODAL (UNCHANGED STRUCTURE) -->
 <div class="modal fade" id="memberModal">

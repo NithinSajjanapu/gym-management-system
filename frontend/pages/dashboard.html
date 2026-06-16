@@ -39,7 +39,7 @@
     }
 
     .header h2 {
-      color: gold;
+      color: rgb(242, 255, 0);
       font-weight: 900;
     }
 
@@ -59,7 +59,7 @@
 
     .card-box:hover {
       transform: translateY(-5px);
-      box-shadow: 0 0 20px gold;
+      box-shadow: 0 0 20px rgb(255, 255, 0);
     }
 
     .number {
@@ -98,7 +98,7 @@
 
     .btn-gold:hover {
       transform: scale(1.03);
-      box-shadow: 0 0 15px gold;
+      box-shadow: 0 0 15px rgb(99, 123, 195);
     }
 
     .badge-status {
@@ -113,6 +113,7 @@
     .expiring { background: orange; }
 
   </style>
+  <link href="../assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -127,25 +128,30 @@
     <p>Where Grit Meets Greatness 💪</p>
   </div>
 
+  <div class="hero-panel mb-4">
+    <h4>Welcome back, Boss</h4>
+    <p>Keep pushing. Keep growing. Track members, revenue, renewals, and invoices in one clean view.</p>
+  </div>
+
   <!-- STATS -->
   <div class="row">
 
     <div class="col-md-3 col-6 mb-3">
-      <div class="card-box">
+      <div class="card-box" onclick="goMembers('all')" style="cursor:pointer;">
         TOTAL MEMBERS
         <div class="number" id="totalMembers">0</div>
       </div>
     </div>
 
     <div class="col-md-3 col-6 mb-3">
-      <div class="card-box">
+      <div class="card-box" onclick="goMembers('active')" style="cursor:pointer;">
         ACTIVE MEMBERS
         <div class="number" id="activeMembers">0</div>
       </div>
     </div>
 
     <div class="col-md-3 col-6 mb-3">
-      <div class="card-box">
+      <div class="card-box" onclick="goMembers('expired')" style="cursor:pointer;">
         EXPIRED MEMBERS
         <div class="number" id="expiredMembers">0</div>
       </div>
@@ -227,6 +233,14 @@
 
 </div>
 
+<nav class="bottom-nav">
+  <a class="active-link" href="dashboard.html"><span>⌂</span>Home</a>
+  <a href="members.html"><span>☷</span>Members</a>
+  <a class="add-action" href="add-member.html"><span>+</span></a>
+  <a href="expiry.html"><span>◴</span>Expiry</a>
+  <a href="dashboard.html#transactionBox"><span>≡</span>More</a>
+</nav>
+
 <script>
 
 const BASE_URL = "http://localhost:5000/api";
@@ -237,8 +251,9 @@ async function getDashboard() {
 }
 
 async function getExpiring() {
-  const res = await fetch(`${BASE_URL}/auth/expiring`);
-  return await res.json();
+  const res = await fetch(`${BASE_URL}/members/expiry-list`);
+  const data = await res.json();
+  return data.filter(m => m.daysRemaining <= 2);
 }
 
 /* ✅ FIX: attach to window */
@@ -246,8 +261,8 @@ window.goAddMember = function () {
   window.location.href = "add-member.html";
 };
 
-window.goMembers = function () {
-  window.location.href = "members.html";
+window.goMembers = function (filter = "all") {
+  window.location.href = `members.html?filter=${filter}`;
 };
 
 window.goExpiry = function () {

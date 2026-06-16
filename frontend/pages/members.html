@@ -140,13 +140,13 @@ h2{
     height:145px;
     border-radius:50%;
     object-fit:cover;
-    border:4px solid gold;
+    border:4px solid rgb(12, 11, 2);
     box-shadow:0 0 24px rgba(255,215,0,0.25);
 }
 
 .member-profile h4{
     margin:12px 0 2px;
-    color:#facc15;
+    color:#f6a000;
     font-size:24px;
     font-weight:800;
 }
@@ -173,6 +173,7 @@ h2{
 }
 
 </style>
+<link href="../assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -187,9 +188,23 @@ h2{
         placeholder="Search Name / Phone"
         onkeyup="searchMembers(this.value)">
 
+    <div class="filter-grid three">
+        <button class="btn btn-primary btn-sm" id="filterAll" onclick="setMemberFilter('all')">All</button>
+        <button class="btn btn-success btn-sm" id="filterActive" onclick="setMemberFilter('active')">Active</button>
+        <button class="btn btn-danger btn-sm" id="filterExpired" onclick="setMemberFilter('expired')">Expired</button>
+    </div>
+
     <div class="row" id="membersContainer"></div>
 
 </div>
+
+<nav class="bottom-nav">
+  <a href="dashboard.html"><span>⌂</span>Home</a>
+  <a class="active-link" href="members.html"><span>☷</span>Members</a>
+  <a class="add-action" href="add-member.html"><span>+</span></a>
+  <a href="expiry.html"><span>◴</span>Expiry</a>
+  <a href="dashboard.html#transactionBox"><span>≡</span>More</a>
+</nav>
 
 <!-- MODAL -->
 <div class="modal fade" id="memberModal">
@@ -213,10 +228,19 @@ h2{
 <script>
 
 let members=[];
+let currentMemberFilter = "all";
+let currentSearch = "";
 
 async function loadMembers(){
     members=await getMembers();
-    renderCards(members);
+    const params = new URLSearchParams(location.search);
+    const filter = params.get("filter");
+
+    if (["all", "active", "expired"].includes(filter)) {
+        currentMemberFilter = filter;
+    }
+
+    applyMemberFilters();
 }
 
 
@@ -230,6 +254,66 @@ function formatDate(dateValue) {
     const year = d.getFullYear();
 
     return `${day}/${month}/${year}`;
+}
+
+function isExpiredMember(member) {
+    if (member.status === "EXPIRED") return true;
+
+    const end = new Date(member.endDate);
+    const today = new Date();
+
+    if (isNaN(end)) return false;
+
+    today.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+
+    return end < today;
+}
+
+function setMemberFilter(filter) {
+    currentMemberFilter = filter;
+    const url = new URL(location.href);
+    url.searchParams.set("filter", filter);
+    history.replaceState(null, "", url);
+    applyMemberFilters();
+}
+
+function updateFilterButtons() {
+    const map = {
+        all: "filterAll",
+        active: "filterActive",
+        expired: "filterExpired"
+    };
+
+    Object.entries(map).forEach(([filter, id]) => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        btn.classList.toggle("active-link", currentMemberFilter === filter);
+        btn.style.opacity = currentMemberFilter === filter ? "1" : ".72";
+    });
+}
+
+function applyMemberFilters() {
+    let filtered = [...members];
+
+    if (currentMemberFilter === "active") {
+        filtered = filtered.filter(m => !isExpiredMember(m));
+    }
+
+    if (currentMemberFilter === "expired") {
+        filtered = filtered.filter(isExpiredMember);
+    }
+
+    if (currentSearch) {
+        const value = currentSearch.toLowerCase();
+        filtered = filtered.filter(m =>
+            (m.name || "").toLowerCase().includes(value) ||
+            (m.phone || "").includes(currentSearch)
+        );
+    }
+
+    updateFilterButtons();
+    renderCards(filtered);
 }
 
 
@@ -354,13 +438,8 @@ async function removeMember(id) {
 
 
 function searchMembers(value){
-
-    const filtered=members.filter(m=>
-        m.name.toLowerCase().includes(value.toLowerCase()) ||
-        m.phone.includes(value)
-    );
-
-    renderCards(filtered);
+    currentSearch = value.trim();
+    applyMemberFilters();
 }
 
 loadMembers();
