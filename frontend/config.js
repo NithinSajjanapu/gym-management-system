@@ -1,3 +1,3 @@
 const CONFIG = {
-  BASE_URL: "http://localhost:5000/api"
+  BASE_URL: "https://gym-management-system-bjcd.onrender.com/api"
 };

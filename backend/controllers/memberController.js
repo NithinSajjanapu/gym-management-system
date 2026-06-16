@@ -7,7 +7,7 @@ const generateInvoice =
 require("../utils/invoiceGenerator");
 
 const getInvoiceUrl = (memberId) =>
-  `http://localhost:5000/invoices/${memberId}.pdf`;
+  `https://gym-management-system-bjcd.onrender.com/invoices/${memberId}.pdf`;
 
 // =====================
 // STATUS HELPER
@@ -74,7 +74,7 @@ exports.getExpiryMembers = async (req,res)=>{
           m.photo.split("/").pop();
 
         photoUrl =
-          `http://localhost:5000/uploads/member_photos/${fileName}`;
+          `https://gym-management-system-bjcd.onrender.com/uploads/member_photos/${fileName}`;
       }
 
       return {
@@ -338,7 +338,7 @@ exports.getAllMembers = async (req, res) => {
         const fileName = member.photo.split("/").pop();
 
         photoUrl =
-          `http://localhost:5000/uploads/member_photos/${fileName}`;
+          `https://gym-management-system-bjcd.onrender.com/uploads/member_photos/${fileName}`;
       }
 
       return {

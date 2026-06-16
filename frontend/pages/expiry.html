@@ -265,7 +265,7 @@ function openWhatsapp(m){
 
 async function loadExpiryMembers(){
 
-    const res = await fetch("http://localhost:5000/api/members/expiry-list");
+    const res = await fetch("https://gym-management-system-bjcd.onrender.com/api/members/expiry-list");
     let data = await res.json();
 
     data.sort((a,b)=> a.daysRemaining - b.daysRemaining);
@@ -302,7 +302,7 @@ function renderCards(data){
 
     data.forEach(m=>{
 
-        const photo = m.photoUrl || `http://localhost:5000${m.photo}`;
+        const photo = m.photoUrl || `https://gym-management-system-bjcd.onrender.com${m.photo}`;
 
         let badgeClass = m.daysRemaining < 0 ? "expired" :
                          m.daysRemaining <= 2 ? "expiring" : "active";
@@ -356,12 +356,12 @@ function renderCards(data){
 
 async function showMember(id){
 
-    const res = await fetch(`http://localhost:5000/api/members/${id}`);
+    const res = await fetch(`https://gym-management-system-bjcd.onrender.com/api/members/${id}`);
     const m = await res.json();
     selectedMember = m;
 
     const photo = m.photo
-        ? `http://localhost:5000${m.photo}`
+        ? `https://gym-management-system-bjcd.onrender.com${m.photo}`
         : "https://via.placeholder.com/150";
 
     const today = new Date();
@@ -435,7 +435,7 @@ async function removeMember(id){
 
     if (!ok) return;
 
-    const res = await fetch(`http://localhost:5000/api/members/${id}`, {
+    const res = await fetch(`https://gym-management-system-bjcd.onrender.com/api/members/${id}`, {
         method: "DELETE"
     });
 

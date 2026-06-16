@@ -368,7 +368,7 @@ window.onload = function () {
 
     document.getElementById("preview").src =
       renewData.photoUrl ||
-      ("http://localhost:5000" + renewData.photo);
+      ("https://gym-management-system-bjcd.onrender.com" + renewData.photo);
 
     document.getElementById("preview").style.display =
       "block";
@@ -548,7 +548,7 @@ async function submitMember(event) {
     if (renewData) {
 
       res = await fetch(
-        `http://localhost:5000/api/members/${renewData._id}/renew`,
+        `https://gym-management-system-bjcd.onrender.com/api/members/${renewData._id}/renew`,
         {
           method: "POST",
           headers: {
@@ -565,7 +565,7 @@ async function submitMember(event) {
     } else {
 
       res = await fetch(
-        "http://localhost:5000/api/members",
+        "https://gym-management-system-bjcd.onrender.com/api/members",
         {
           method: "POST",
           body: formData
@@ -624,7 +624,7 @@ function showCustomSuccessPopup(member, isRenew = false, invoiceFromResponse = "
   const invoiceUrl =
     invoiceFromResponse ||
     member.invoice ||
-    `http://localhost:5000/invoices/${member._id}.pdf`;
+    `https://gym-management-system-bjcd.onrender.com/invoices/${member._id}.pdf`;
 
   document.getElementById("successTitle").innerText =
     isRenew ? "Membership Renewed Successfully" : "Member Added Successfully";
