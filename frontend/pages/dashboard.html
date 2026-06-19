@@ -91,36 +91,42 @@
 
     <div class="row">
 
-      <div class="col-md-4 col-12 mb-2">
-        <div class="card-box">
-          TOTAL
-          <div class="number" id="totalRevenueBox">₹0</div>
-        </div>
-      </div>
-      <div class="col-md-3 col-12 mb-2">
-          <div class="card-box">
-            THIS MONTH
-            <div class="number" id="monthlyRevenue">
-             ₹0
-            </div>
-          </div>
-        </div>
+  <!-- TOTAL -->
+  <div class="col-md-6 col-12 mb-3">
+    <div class="card-box">
+      TOTAL
+      <div class="number" id="totalRevenueBox">₹0</div>
+    </div>
+  </div>
 
-      <div class="col-md-4 col-12 mb-2">
-        <div class="card-box">
-          UPI
-          <div class="number" id="upiRevenue">₹0</div>
-        </div>
+  <!-- THIS MONTH -->
+  <div class="col-md-6 col-12 mb-3">
+    <div class="card-box">
+      THIS MONTH
+      <div class="number" id="monthlyRevenue">₹0</div>
+    </div>
+  </div>
+
+  <!-- UPI + CASH COMBINED -->
+  <div class="col-12">
+    <div class="card-box payment-split-card">
+
+      <div class="payment-half">
+        <div class="payment-title">UPI</div>
+        <div class="number" id="upiRevenue">₹0</div>
       </div>
 
-      <div class="col-md-4 col-12 mb-2">
-        <div class="card-box">
-          CASH
-          <div class="number" id="cashRevenue">₹0</div>
-        </div>
+      <div class="payment-divider"></div>
+
+      <div class="payment-half">
+        <div class="payment-title">CASH</div>
+        <div class="number" id="cashRevenue">₹0</div>
       </div>
 
     </div>
+  </div>
+
+  </div>
 
   </div>
 

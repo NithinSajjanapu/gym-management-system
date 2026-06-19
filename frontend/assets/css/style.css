@@ -36,6 +36,62 @@
     transition:.2s;
 }
 
+
+
+
+/* =====================================
+   DASHBOARD PAYMENT SPLIT CARD
+===================================== */
+
+.payment-split-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:0;
+    padding:25px !important;
+}
+
+.payment-half{
+    flex:1;
+    text-align:center;
+}
+
+.payment-title{
+    font-size:14px;
+    font-weight:700;
+    opacity:.9;
+    margin-bottom:10px;
+    color:white;
+}
+
+.payment-divider{
+    width:1px;
+    align-self:stretch;
+    background:rgba(255,255,255,.25);
+    margin:0 20px;
+}
+
+.payment-split-card .number{
+    font-size:36px !important;
+}
+
+@media(max-width:576px){
+
+    .payment-split-card{
+        padding:20px !important;
+    }
+
+    .payment-split-card .number{
+        font-size:28px !important;
+    }
+
+    .payment-divider{
+        margin:0 12px;
+    }
+}
+
+
+
 /* MODAL CLOSE BUTTON */
 
 .modal-header{
