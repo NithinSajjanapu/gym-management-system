@@ -244,12 +244,15 @@ window.onload = function () {
 async function openCamera() {
 
   stream = await navigator.mediaDevices.getUserMedia({
-    video: true
+    video: {
+      facingMode: {
+        ideal: "environment"
+      }
+    }
   });
 
   document.getElementById("video").srcObject = stream;
 }
-
 function capturePhoto() {
 
   const video = document.getElementById("video");
