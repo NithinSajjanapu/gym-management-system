@@ -321,7 +321,7 @@ option {
   display:grid;
   grid-template-columns:repeat(5,1fr);
   overflow: visible !important; 
-  padding:8px 6px;
+  padding:6px 6px;
 
   background:rgba(255,255,255,.95);
   backdrop-filter:blur(18px);
@@ -381,7 +381,7 @@ option {
 }
 
 .bottom-nav a span {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1;
 }
 
@@ -392,8 +392,8 @@ option {
 }
 
 .bottom-nav .add-action{
-  width:68px;
-  height:68px;
+  width:60px;
+  height:60px;
 
   display:flex;
   align-items:center;
@@ -402,7 +402,7 @@ option {
   justify-self:center;
   align-self:start;
 
-  transform:translateY(-20px);
+  transform:translateY(-16px);
 
   color:white;
   background:linear-gradient(135deg,var(--blue),var(--purple));
