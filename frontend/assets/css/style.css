@@ -48,6 +48,7 @@ body::before,
   padding: 22px 0 150px !important;
   position: relative;
   z-index: 2;
+  
 }
 
 .container-box {
@@ -58,6 +59,7 @@ h2,
 h3 {
   color: var(--ink) !important;
   letter-spacing: 0 !important;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
 h2 {
@@ -101,8 +103,8 @@ h3 {
   text-align: left !important;
   padding: 20px !important;
 
-  background: linear-gradient(135deg, #6d35ff, #0a84ff) !important;
-  color: white !important;
+  background: linear-gradient(135deg, #4661db76, #ffffff) !important;
+  color: rgb(255, 255, 255) !important;
 }
 
 .card-box:hover,
