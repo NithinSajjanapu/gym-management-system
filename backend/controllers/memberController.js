@@ -258,14 +258,32 @@ exports.addMember = async (req, res) => {
     endDate.setMonth(endDate.getMonth() + months);
 
     // PRICE
-    let amount = 0;
+   let amount = 0;
 
-    if (workoutType === "STRENGTH") amount = 800;
-    else if (workoutType === "CARDIO") amount = 1000;
-    else if (workoutType === "BOTH") amount = 1500;
+    if (workoutType === "STRENGTH") {
 
-    amount = amount * months;
+      if (plan === "1") amount = 1249;
+      else if (plan === "3") amount = 2999;
+      else if (plan === "6") amount = 5499;
+      else if (plan === "12") amount = 9999;
 
+    }
+    else if (workoutType === "CARDIO") {
+
+      if (plan === "1") amount = 1499;
+      else if (plan === "3") amount = 3499;
+      else if (plan === "6") amount = 6499;
+      else if (plan === "12") amount = 10999;
+
+    }
+    else if (workoutType === "BOTH") {
+
+      if (plan === "1") amount = 1799;
+      else if (plan === "3") amount = 4499;
+      else if (plan === "6") amount = 7999;
+      else if (plan === "12") amount = 12999;
+
+    }
     // CREATE MEMBER
     const member = await Member.create({
       name,
@@ -485,14 +503,35 @@ async (req,res)=>{
 
     let months = Number(plan) || 1;
 
-    let newAmount = 0;
+  let newAmount = 0;
 
-    if (member.workoutType === "STRENGTH") newAmount = 800;
-    else if (member.workoutType === "CARDIO") newAmount = 1000;
-    else if (member.workoutType === "BOTH") newAmount = 1500;
+    if (member.workoutType === "STRENGTH") {
 
-    newAmount = newAmount * months;
+      if (plan === "1") newAmount = 1249;
+      else if (plan === "3") newAmount = 2999;
+      else if (plan === "6") newAmount = 5499;
+      else if (plan === "12") newAmount = 9999;
 
+    }
+
+    else if (member.workoutType === "CARDIO") {
+
+      if (plan === "1") newAmount = 1499;
+      else if (plan === "3") newAmount = 3499;
+      else if (plan === "6") newAmount = 6499;
+      else if (plan === "12") newAmount = 10999;
+
+    }
+
+    else if (member.workoutType === "BOTH") {
+
+      if (plan === "1") newAmount = 1799;
+      else if (plan === "3") newAmount = 4499;
+      else if (plan === "6") newAmount = 7999;
+      else if (plan === "12") newAmount = 12999;
+
+    }
+    
     await MemberHistory.create({
 
       memberId: member._id,

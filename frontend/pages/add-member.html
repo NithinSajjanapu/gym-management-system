@@ -296,22 +296,40 @@ function calcPrice() {
   const workout =
     document.getElementById("workoutType").value;
 
-  const months =
-    parseInt(
-      document.getElementById("plan").value || 1
-    );
+  const plan =
+    document.getElementById("plan").value;
 
-  let base = 0;
+  let total = 0;
 
-  if (workout === "STRENGTH") base = 800;
-  else if (workout === "CARDIO") base = 1000;
-  else if (workout === "BOTH") base = 1500;
+  if (workout === "STRENGTH") {
 
-  const total = base * months;
+    if (plan === "1") total = 1249;
+    else if (plan === "3") total = 2999;
+    else if (plan === "6") total = 5499;
+    else if (plan === "12") total = 9999;
+
+  }
+
+  else if (workout === "CARDIO") {
+
+    if (plan === "1") total = 1499;
+    else if (plan === "3") total = 3499;
+    else if (plan === "6") total = 6499;
+    else if (plan === "12") total = 10999;
+
+  }
+
+  else if (workout === "BOTH") {
+
+    if (plan === "1") total = 1799;
+    else if (plan === "3") total = 4499;
+    else if (plan === "6") total = 7999;
+    else if (plan === "12") total = 12999;
+
+  }
 
   document.getElementById("price").innerText = total;
 }
-
 /* SAVE MEMBER */
 
 async function submitMember(event) {
