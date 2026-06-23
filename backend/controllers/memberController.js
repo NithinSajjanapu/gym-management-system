@@ -71,10 +71,7 @@ exports.getExpiryMembers = async (req,res)=>{
       if(m.photo){
 
         const fileName =
-          m.photo.split("/").pop();
-
-        photoUrl =
-          `https://gym-management-system-bjcd.onrender.com/uploads/member_photos/${fileName}`;
+          photoUrl = m.photo;
       }
 
       return {
@@ -230,9 +227,9 @@ exports.addMember = async (req, res) => {
 
  
 
-    if (req.file) {
-      photo = `/uploads/member_photos/${req.file.filename}`;
-    }
+        if (req.file) {
+        photo = req.file.path;
+      }
 
     if (!photo) {
       return res.status(400).json({
@@ -353,10 +350,7 @@ exports.getAllMembers = async (req, res) => {
 
       if (member.photo) {
 
-        const fileName = member.photo.split("/").pop();
-
-        photoUrl =
-          `https://gym-management-system-bjcd.onrender.com/uploads/member_photos/${fileName}`;
+        photoUrl = member.photo;
       }
 
       return {
