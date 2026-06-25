@@ -7,7 +7,6 @@
   --ink: #101828;
   --muted: #667085;
   --line: #e9edf5;
-
   --purple: #6d35ff;
   --violet: #a235ff;
   --blue: #0a84ff;
@@ -278,7 +277,7 @@ option {
   height: 145px;
   border-radius: 50%;
   object-fit: cover;
-
+  
   border: 4px solid var(--blue) !important;
   box-shadow: 0 0 24px rgba(10, 132, 255, .25) !important;
 }
@@ -385,7 +384,7 @@ option {
 .login-box {
   width: 100%;
   max-width: 380px;
-  margin: auto;
+  margin: 100px;
   padding: 30px;
 
   background: rgba(255, 255, 255, .94) !important;

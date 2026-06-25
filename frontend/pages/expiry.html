@@ -200,7 +200,9 @@
 
         data.forEach(m => {
 
-            const photo = m.photoUrl || `https://gym-management-system-bjcd.onrender.com${m.photo}`;
+            const photo = m.photoUrl && m.photoUrl.startsWith("http")
+            ? m.photoUrl
+            : "https://via.placeholder.com/100";
 
             let badgeClass =
             m.daysRemaining < 0 ? "expired" :
@@ -266,9 +268,7 @@
 
         selectedMember = m;
 
-        const photo = m.photo
-            ? `https://gym-management-system-bjcd.onrender.com${m.photo}`
-            : "https://via.placeholder.com/150";
+        const photo = m.photoUrl || "https://via.placeholder.com/150";
 
         const today = new Date();
         const end = new Date(m.endDate);
@@ -282,10 +282,12 @@
         document.getElementById("modalContent").innerHTML = `
 
             <center>
-            <img src="${photo}"
+            <img 
+                src="${m.photo}"
                 onerror="this.src='https://via.placeholder.com/150'"
                 style="width:150px;height:150px;border-radius:50%;border:4px solid gold;">
             </center>
+            
 
             <br>
 
