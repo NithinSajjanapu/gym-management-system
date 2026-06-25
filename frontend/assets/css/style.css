@@ -381,12 +381,21 @@ option {
 /* =========================================================
    LOGIN
 ========================================================= */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+
 .login-box {
   width: 100%;
   max-width: 380px;
   margin: auto;
   padding: 30px;
-  align-items: center;
   background: rgba(255, 255, 255, .94) !important;
   color: var(--ink) !important;
 
@@ -425,7 +434,7 @@ option {
   font-weight: bold;
 
   background: linear-gradient(135deg, var(--purple), var(--violet)) !important;
-  color: white !important;
+  color: rgb(242, 242, 242) !important;
 
   transition: .3s;
 }
