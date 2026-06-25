@@ -635,16 +635,27 @@ option {
     border-radius: 20px !important;
   }
 
-  .modal-dialog {
-    max-width: 350px !important;
-    margin: 40px auto !important;
+   .modal-dialog {
+    max-width: 92% !important;
+    margin: 10px auto !important;
   }
 
   .modal-content {
-    min-height: 250px;
-    border-radius: 20px !important;
+    border-radius: 16px !important;
+    padding: 10px !important;
+    min-height: auto !important;
+  }
+
+  .member-profile img {
+    width: 110px !important;
+    height: 110px !important;
+  }
+
+  .table {
+    font-size: 12px !important;
   }
 }
+
 
 @media (max-width: 520px) {
   .filter-grid.four-three {
