@@ -338,6 +338,8 @@ option {
 /* =========================================================
    MODAL
 ========================================================= */
+
+
 .modal-header {
   position: relative;
   border-bottom: 1px solid var(--line) !important;
@@ -634,12 +636,12 @@ option {
   }
 
   .modal-dialog {
-    max-width: 420px !important;
+    max-width: 350px !important;
     margin: 40px auto !important;
   }
 
   .modal-content {
-    min-height: 350px;
+    min-height: 250px;
     border-radius: 20px !important;
   }
 }
