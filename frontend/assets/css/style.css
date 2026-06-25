@@ -384,9 +384,9 @@ option {
 .login-box {
   width: 100%;
   max-width: 380px;
-  margin: 100px;
+  margin: auto;
   padding: 30px;
-
+  align-items: center;
   background: rgba(255, 255, 255, .94) !important;
   color: var(--ink) !important;
 
