@@ -1,237 +1,253 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Veer Fitness Dashboard</title>
+    <title>Veer Fitness Dashboard</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
 
-<div class="overlay"></div>
+    <div class="overlay"></div>
 
-<div class="container">
+    <div class="container">
 
-  <!-- HEADER -->
-  <div class="header">
-    <h2>VEER FITNESS CLUB</h2>
-    <p>Where Grit Meets Greatness 💪</p>
-  </div>
+        <!-- Dashboard Header -->
+        <div class="header">
+            <h2>VEER FITNESS CLUB</h2>
+            <p>Where Grit Meets Greatness 💪</p>
+        </div>
 
-  <div class="hero-panel mb-4">
-    <h4>Welcome back, Boss</h4>
-    <p>Keep pushing. Keep growing. Track members, revenue, renewals, and invoices in one clean view.</p>
-  </div>
+        <!-- Welcome Panel -->
+        <div class="hero-panel mb-4">
+            <h4>Welcome back, Boss</h4>
+            <p>
+                Keep pushing. Keep growing. Track members, revenue,
+                renewals, and invoices in one clean view.
+            </p>
+        </div>
 
-  <!-- STATS -->
-  <div class="row">
+        <!-- Stats Cards -->
+        <div class="row">
 
-    <div class="col-md-3 col-6 mb-3">
-      <div class="card-box" onclick="goMembers('all')" style="cursor:pointer;">
-        TOTAL MEMBERS
-        <div class="number" id="totalMembers">0</div>
-      </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card-box" onclick="goMembers('all')" style="cursor:pointer;">
+                    TOTAL MEMBERS
+                    <div class="number" id="totalMembers">0</div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card-box" onclick="goMembers('active')" style="cursor:pointer;">
+                    ACTIVE MEMBERS
+                    <div class="number" id="activeMembers">0</div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card-box" onclick="goMembers('expired')" style="cursor:pointer;">
+                    EXPIRED MEMBERS
+                    <div class="number" id="expiredMembers">0</div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card-box" onclick="openTransactions()" style="cursor:pointer;">
+                    REVENUE
+                    <div class="number" id="revenue">₹0</div>
+                    <small style="color:gold;">Click to view transactions</small>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Expiring Members -->
+        <div class="section-box">
+            <div class="section-title">⚠️ EXPIRING IN 2 DAYS</div>
+            <div id="expiringList"></div>
+        </div>
+
+        <!-- Add Member -->
+        <div class="section-box">
+            <div class="section-title">➕ ADD MEMBER</div>
+            <button class="btn btn-gold w-100" onclick="goAddMember()">
+                Open Add Member Page
+            </button>
+        </div>
+
+        <!-- Members -->
+        <div class="section-box">
+            <div class="section-title">👥 MEMBERS</div>
+            <button class="btn btn-gold w-100" onclick="goMembers()">
+                View All Members
+            </button>
+        </div>
+
+        <!-- Expiry Dashboard -->
+        <div class="section-box">
+            <div class="section-title">⏰ EXPIRY PANEL</div>
+            <button class="btn btn-gold w-100" onclick="goExpiry()">
+                Open Expiry Dashboard
+            </button>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="section-box" id="transactionBox" style="display:none;">
+
+            <div class="section-title">💰 TRANSACTION HISTORY</div>
+
+            <div class="row">
+
+                <div class="col-md-6 col-12 mb-3">
+                    <div class="card-box">
+                        TOTAL
+                        <div class="number" id="totalRevenueBox">₹0</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-12 mb-3">
+                    <div class="card-box">
+                        THIS MONTH
+                        <div class="number" id="monthlyRevenue">₹0</div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="card-box payment-split-card">
+
+                        <div class="payment-half">
+                            <div class="payment-title">UPI</div>
+                            <div class="number" id="upiRevenue">₹0</div>
+                        </div>
+
+                        <div class="payment-divider"></div>
+
+                        <div class="payment-half">
+                            <div class="payment-title">CASH</div>
+                            <div class="number" id="cashRevenue">₹0</div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="col-md-3 col-6 mb-3">
-      <div class="card-box" onclick="goMembers('active')" style="cursor:pointer;">
-        ACTIVE MEMBERS
-        <div class="number" id="activeMembers">0</div>
-      </div>
-    </div>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a class="active-link" href="dashboard.html"><span>⌂</span>Home</a>
+        <a href="members.html"><span>☷</span>Members</a>
+        <a class="add-action" href="add-member.html"><span>+</span></a>
+        <a href="expiry.html"><span>◴</span>Expiry</a>
+        <a href="dashboard.html#transactionBox"><span>≡</span>More</a>
+    </nav>
 
-    <div class="col-md-3 col-6 mb-3">
-      <div class="card-box" onclick="goMembers('expired')" style="cursor:pointer;">
-        EXPIRED MEMBERS
-        <div class="number" id="expiredMembers">0</div>
-      </div>
-    </div>
+    <script>
 
-    <div class="col-md-3 col-6 mb-3">
-      <div class="card-box" onclick="openTransactions()" style="cursor:pointer;">
-        REVENUE
-        <div class="number" id="revenue">₹0</div>
-        <small style="color:gold;">Click to view transactions</small>
-      </div>
-    </div>
+        const BASE_URL = "https://gym-management-system-bjcd.onrender.com/api";
 
-  </div>
+        async function getDashboard() {
+            const res = await fetch(`${BASE_URL}/dashboard`);
+            return await res.json();
+        }
 
-  <!-- EXPIRING ALERT -->
-  <div class="section-box">
-    <div class="section-title">⚠️ EXPIRING IN 2 DAYS</div>
-    <div id="expiringList"></div>
-  </div>
+        async function getExpiring() {
+            const res = await fetch(`${BASE_URL}/members/expiry-list`);
+            const data = await res.json();
 
-  <!-- ADD MEMBER -->
-  <div class="section-box">
-    <div class="section-title">➕ ADD MEMBER</div>
-    <button class="btn btn-gold w-100" onclick="goAddMember()">Open Add Member Page</button>
-  </div>
+            return data.filter(m => m.daysRemaining <= 2);
+        }
 
-  <!-- MEMBERS -->
-  <div class="section-box">
-    <div class="section-title">👥 MEMBERS</div>
-    <button class="btn btn-gold w-100" onclick="goMembers()">View All Members</button>
-  </div>
+        /* Navigation */
 
-  <!-- EXPIRY -->
-  <div class="section-box">
-    <div class="section-title">⏰ EXPIRY PANEL</div>
-    <button class="btn btn-gold w-100" onclick="goExpiry()">Open Expiry Dashboard</button>
-  </div>
+        window.goAddMember = function () {
+            window.location.href = "add-member.html";
+        };
 
-  <!-- TRANSACTION PANEL -->
-  <div class="section-box" id="transactionBox" style="display:none;">
+        window.goMembers = function (filter = "all") {
+            window.location.href = `members.html?filter=${filter}`;
+        };
 
-    <div class="section-title">💰 TRANSACTION HISTORY</div>
+        window.goExpiry = function () {
+            window.location.href = "expiry.html";
+        };
 
-    <div class="row">
+        window.openTransactions = function () {
 
-  <!-- TOTAL -->
-  <div class="col-md-6 col-12 mb-3">
-    <div class="card-box">
-      TOTAL
-      <div class="number" id="totalRevenueBox">₹0</div>
-    </div>
-  </div>
+            const box = document.getElementById("transactionBox");
 
-  <!-- THIS MONTH -->
-  <div class="col-md-6 col-12 mb-3">
-    <div class="card-box">
-      THIS MONTH
-      <div class="number" id="monthlyRevenue">₹0</div>
-    </div>
-  </div>
+            if (box.style.display === "none") {
+                box.style.display = "block";
+                box.scrollIntoView({ behavior: "smooth" });
+            } else {
+                box.style.display = "none";
+            }
+        };
 
-  <!-- UPI + CASH COMBINED -->
-  <div class="col-12">
-    <div class="card-box payment-split-card">
+        /* Dashboard Data */
 
-      <div class="payment-half">
-        <div class="payment-title">UPI</div>
-        <div class="number" id="upiRevenue">₹0</div>
-      </div>
+        async function loadDashboard() {
 
-      <div class="payment-divider"></div>
+            const data = await getDashboard();
 
-      <div class="payment-half">
-        <div class="payment-title">CASH</div>
-        <div class="number" id="cashRevenue">₹0</div>
-      </div>
+            document.getElementById("totalMembers").innerText =
+                data.totalMembers || 0;
 
-    </div>
-  </div>
+            document.getElementById("activeMembers").innerText =
+                data.activeMembers || 0;
 
-  </div>
+            document.getElementById("expiredMembers").innerText =
+                data.expiredMembers || 0;
 
-  </div>
+            document.getElementById("revenue").innerText =
+                "₹" + (data.totalRevenue || 0);
 
-</div>
+            document.getElementById("totalRevenueBox").innerText =
+                "₹" + data.totalRevenue;
 
-<nav class="bottom-nav">
-  <a class="active-link" href="dashboard.html"><span>⌂</span>Home</a>
-  <a href="members.html"><span>☷</span>Members</a>
-  <a class="add-action" href="add-member.html"><span>+</span></a>
-  <a href="expiry.html"><span>◴</span>Expiry</a>
-  <a href="dashboard.html#transactionBox"><span>≡</span>More</a>
-</nav>
+            document.getElementById("monthlyRevenue").innerText =
+                "₹" + (data.monthlyRevenue || 0);
 
-<script>
+            document.getElementById("upiRevenue").innerText =
+                "₹" + (data.upiRevenue || 0);
 
-const BASE_URL = "https://gym-management-system-bjcd.onrender.com/api";
+            document.getElementById("cashRevenue").innerText =
+                "₹" + (data.cashRevenue || 0);
+        }
 
-async function getDashboard() {
-  const res = await fetch(`${BASE_URL}/dashboard`);
-  return await res.json();
-}
+        /* Expiring Members */
 
-async function getExpiring() {
-  const res = await fetch(`${BASE_URL}/members/expiry-list`);
-  const data = await res.json();
-  return data.filter(m => m.daysRemaining <= 2);
-}
+        async function loadExpiring() {
 
-/* ✅ FIX: attach to window */
-window.goAddMember = function () {
-  window.location.href = "add-member.html";
-};
+            const data = await getExpiring();
 
-window.goMembers = function (filter = "all") {
-  window.location.href = `members.html?filter=${filter}`;
-};
+            let html = "";
 
-window.goExpiry = function () {
-  window.location.href = "expiry.html";
-};
+            data.forEach(m => {
 
-window.openTransactions = function () {
-  const box = document.getElementById("transactionBox");
+                html += `
+                    <div style="padding:10px; margin:5px; border:1px solid gold; border-radius:10px;">
+                        <b>${m.name}</b> - ${m.phone}
+                        <span class="badge-status expiring">EXPIRING</span>
+                    </div>
+                `;
+            });
 
-  if (box.style.display === "none") {
-    box.style.display = "block";
-    box.scrollIntoView({ behavior: "smooth" });
-  } else {
-    box.style.display = "none";
-  }
-};
+            document.getElementById("expiringList").innerHTML = html;
+        }
 
-/* LOAD DASHBOARD */
-async function loadDashboard() {
+        loadDashboard();
+        loadExpiring();
 
-  const data = await getDashboard();
-
-  document.getElementById("totalMembers").innerText =
-data.totalMembers || 0;
-
-document.getElementById("activeMembers").innerText =
-data.activeMembers || 0;
-
-document.getElementById("expiredMembers").innerText =
-data.expiredMembers || 0;
-
-document.getElementById("revenue").innerText =
-"₹" + (data.totalRevenue || 0);
-
-
-  document.getElementById("totalRevenueBox").innerText = "₹" + data.totalRevenue;
-  
-  document.getElementById("monthlyRevenue").innerText =
-"₹" + (data.monthlyRevenue || 0);
-
-document.getElementById("upiRevenue").innerText =
-"₹" + (data.upiRevenue || 0);
-
-document.getElementById("cashRevenue").innerText =
-"₹" + (data.cashRevenue || 0);
-}
-
-/* LOAD EXPIRING MEMBERS */
-async function loadExpiring() {
-
-  const data = await getExpiring();
-
-  let html = "";
-
-  data.forEach(m => {
-    html += `
-      <div style="padding:10px; margin:5px; border:1px solid gold; border-radius:10px;">
-        <b>${m.name}</b> - ${m.phone}
-        <span class="badge-status expiring">EXPIRING</span>
-      </div>
-    `;
-  });
-
-  document.getElementById("expiringList").innerHTML = html;
-}
-
-loadDashboard();
-loadExpiring();
-
-</script>
+    </script>
 
 </body>
+
 </html>

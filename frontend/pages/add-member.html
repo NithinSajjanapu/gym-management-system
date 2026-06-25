@@ -1,607 +1,432 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Add Member</title>
+    <title>Add Member</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 </head>
 
-<body class = "add-member-page">
+<body class="add-member-page">
 
-<div class="container container-box">
+    <!-- MAIN CONTAINER -->
+    <div class="container container-box">
 
-  <div class="card-box">
+        <!-- FORM CARD -->
+        <div class="card-box">
 
-    <h3 >ADD MEMBER</h3>
+            <!-- TITLE -->
+            <h3>ADD MEMBER</h3>
 
-    <input id="name" placeholder="Enter Name">
-    <input
-      id="phone"
-      type="tel"
-      maxlength="10"
-      placeholder="Enter Phone"
-      oninput="this.value=this.value.replace(/[^0-9]/g,'')"
-    >
-    <input
-      id="age"
-      type="number"
-      min="10"
-      max="80"
-      placeholder="Enter Age"
-    >
+            <!-- BASIC DETAILS -->
+            <input id="name" placeholder="Enter Name">
 
-    <input
-      id="weight"
-      type="number"
-      min="0"
-      max="130"
-      placeholder="Weight (kg)"
-    >
-    <input
-      type="datetime-local"
-      id="joinDate"
-    >
-    
+            <input
+                id="phone"
+                type="tel"
+                maxlength="10"
+                placeholder="Enter Phone"
+                oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+            >
 
-    <select id="gender">
-      <option>Male</option>
-      <option>Female</option>
-    </select>
+            <input
+                id="age"
+                type="number"
+                min="10"
+                max="80"
+                placeholder="Enter Age"
+            >
 
-    <select id="workoutType" onchange="calcPrice()">
-      <option value="STRENGTH">Strength</option>
-      <option value="CARDIO">Cardio</option>
-      <option value="BOTH">Strength + Cardio</option>
-    </select>
+            <input
+                id="weight"
+                type="number"
+                min="0"
+                max="130"
+                placeholder="Weight (kg)"
+            >
 
-    <select id="plan" onchange="calcPrice()">
-      <option value="1">1 Month</option>
-      <option value="3">3 Months</option>
-      <option value="6">6 Months</option>
-      <option value="12">1 Year</option>
-    </select>
+            <input type="datetime-local" id="joinDate">
 
-    <!-- PHOTO -->
-    <div class="photo-frame">
-      <video id="video" autoplay></video>
-      <img id="preview" style="display:none;">
-    </div>
+            <!-- GENDER -->
+            <select id="gender">
+                <option>Male</option>
+                <option>Female</option>
+            </select>
 
-    <button type="button" class="camera-btn" onclick="openCamera()">📸 Open Camera</button>
-    <button type="button" class="camera-btn" onclick="capturePhoto()">📷 Capture Photo</button>
+            <!-- WORKOUT TYPE -->
+            <select id="workoutType" onchange="calcPrice()">
+                <option value="STRENGTH">Strength</option>
+                <option value="CARDIO">Cardio</option>
+                <option value="BOTH">Strength + Cardio</option>
+            </select>
 
-    <!-- AMOUNT (FIXED POSITION) -->
-    <div class="amount-box">
-      💰 Amount: ₹<span id="price">0</span>
-    </div>
+            <!-- PLAN -->
+            <select id="plan" onchange="calcPrice()">
+                <option value="1">1 Month</option>
+                <option value="3">3 Months</option>
+                <option value="6">6 Months</option>
+                <option value="12">1 Year</option>
+            </select>
 
-    <select id="paymentMode">
-      <option value="UPI">UPI</option>
-      <option value="CASH">CASH</option>
-    </select>
+            <!-- PHOTO -->
+            <div class="photo-frame">
+                <video id="video" autoplay></video>
+                <img id="preview" style="display:none;">
+            </div>
 
-    <button
-      type="button"
-      class="btn-gold"
-      onclick="submitMember(event)">
-      SAVE MEMBER
-    </button>
+            <!-- CAMERA ACTIONS -->
+            <button type="button" class="camera-btn" onclick="openCamera()">📸 Open Camera</button>
+            <button type="button" class="camera-btn" onclick="capturePhoto()">📷 Capture Photo</button>
 
-  </div>
+            <!-- PRICE -->
+            <div class="amount-box">
+                💰 Amount: ₹<span id="price">0</span>
+            </div>
 
-</div>
+            <!-- PAYMENT -->
+            <select id="paymentMode">
+                <option value="UPI">UPI</option>
+                <option value="CASH">CASH</option>
+            </select>
 
-<nav class="bottom-nav">
-  <a href="dashboard.html"><span>⌂</span>Home</a>
-  <a href="members.html"><span>☷</span>Members</a>
-  <a class="add-action active-link" href="add-member.html"><span>+</span></a>
-  <a href="expiry.html"><span>◴</span>Expiry</a>
-  <a href="dashboard.html#transactionBox"><span>≡</span>More</a>
-</nav>
+            <!-- SAVE -->
+            <button type="button" class="btn-gold" onclick="submitMember(event)">
+                SAVE MEMBER
+            </button>
 
-
-
-<!-- SUCCESS MODAL -->
-
-<div class="modal fade" id="successModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-
-    <div class="modal-content">
-
-      <div class="modal-header">
-
-        <h5
-          class="modal-title fw-bold"
-          id="successTitle">
-          Member Added Successfully
-        </h5>
-
-      </div>
-
-      <div class="modal-body text-center">
-
-        <p id="successMessage">
-          Member has been added successfully.
-        </p>
-
-        <button
-        type="button"
-          id="invoiceBtn"
-          class="btn btn-warning w-100 mb-2">
-
-          📄 Download Invoice
-
-        </button>
-
-        <button
-          type="button"
-          id="whatsappBtn"
-          class="btn btn-success w-100 mb-2">
-
-          💬 WhatsApp
-
-        </button>
-
-        <button
-          type="button"
-          id="goBtn"
-          class="btn btn-primary w-100">
-
-          👥 Go To Members List
-
-        </button>
-
-      </div>
+        </div>
 
     </div>
 
-  </div>
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html"><span>⌂</span>Home</a>
+        <a href="members.html"><span>☷</span>Members</a>
+        <a class="add-action active-link" href="add-member.html"><span>+</span></a>
+        <a href="expiry.html"><span>◴</span>Expiry</a>
+        <a href="dashboard.html#transactionBox"><span>≡</span>More</a>
+    </nav>
 
-</div>
+    <!-- SUCCESS MODAL -->
+    <div class="modal fade" id="successModal" tabindex="-1">
 
+        <div class="modal-dialog modal-dialog-centered">
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <div class="modal-content">
 
-<script>
-let stream;
-let capturedFile = null;
-let isSubmitting = false;
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="successTitle">
+                        Member Added Successfully
+                    </h5>
+                </div>
 
+                <div class="modal-body text-center">
 
+                    <p id="successMessage">
+                        Member has been added successfully.
+                    </p>
 
-/* AUTO DATE */
+                    <button type="button" id="invoiceBtn" class="btn btn-warning w-100 mb-2">
+                        📄 Download Invoice
+                    </button>
 
+                    <button type="button" id="whatsappBtn" class="btn btn-success w-100 mb-2">
+                        💬 WhatsApp
+                    </button>
 
-window.onload = function () {
-  const now = new Date();
-  const localDateTime =
-      now.getFullYear() + "-" +
-      String(now.getMonth() + 1).padStart(2, "0") + "-" +
-      String(now.getDate()).padStart(2, "0") + "T" +
-      String(now.getHours()).padStart(2, "0") + ":" +
-      String(now.getMinutes()).padStart(2, "0");
-  document.getElementById("joinDate").value = localDateTime;
-  calcPrice();
+                    <button type="button" id="goBtn" class="btn btn-primary w-100">
+                        👥 Go To Members List
+                    </button>
 
-  // =========================
-  // RENEW MEMBER AUTO FILL
-  // =========================
+                </div>
 
-  const renewData =
-    JSON.parse(
-      sessionStorage.getItem(
-        "renewMember"
-      )
-    );
+            </div>
 
-  if(renewData){
-    document.querySelector("h3").innerText = "RENEW MEMBER";
+        </div>
 
-    document.getElementById("name").value =
-      renewData.name || "";
+    </div>
 
-    document.getElementById("phone").value =
-      renewData.phone || "";
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    document.getElementById("age").value =
-      renewData.age || "";
+    <script>
 
-    document.getElementById("weight").value =
-      renewData.weight || "";
 
-    document.getElementById("gender").value =
-      renewData.gender || "Male";
+    //Global State
 
-    document.getElementById("workoutType").value =
-      renewData.workoutType || "STRENGTH";
+    let stream;
+    let capturedFile = null;
+    let isSubmitting = false;
 
-    document.getElementById("plan").value =
-      renewData.plan || "1";
 
-    // SHOW OLD PHOTO
+    //Auto date + checking review
 
-    document.getElementById("preview").src =
-      renewData.photoUrl ||
-      ("https://gym-management-system-bjcd.onrender.com" + renewData.photo);
+    window.onload = function () {
 
-    document.getElementById("preview").style.display =
-      "block";
+        const now = new Date();
 
-    document.getElementById("video").style.display =
-      "none";
+        const localDateTime =
+            now.getFullYear() + "-" +
+            String(now.getMonth() + 1).padStart(2, "0") + "-" +
+            String(now.getDate()).padStart(2, "0") + "T" +
+            String(now.getHours()).padStart(2, "0") + ":" +
+            String(now.getMinutes()).padStart(2, "0");
 
-    calcPrice();
-  }
+        document.getElementById("joinDate").value = localDateTime;
 
-};
+        calcPrice();
 
+        const renewData = JSON.parse(sessionStorage.getItem("renewMember"));
 
+        if (renewData) {
 
-/* CAMERA */
-async function openCamera() {
+            document.querySelector("h3").innerText = "RENEW MEMBER";
 
-  stream = await navigator.mediaDevices.getUserMedia({
-    video: {
-      facingMode: {
-        ideal: "environment"
-      }
-    }
-  });
+            document.getElementById("name").value = renewData.name || "";
+            document.getElementById("phone").value = renewData.phone || "";
+            document.getElementById("age").value = renewData.age || "";
+            document.getElementById("weight").value = renewData.weight || "";
+            document.getElementById("gender").value = renewData.gender || "Male";
+            document.getElementById("workoutType").value = renewData.workoutType || "STRENGTH";
+            document.getElementById("plan").value = renewData.plan || "1";
 
-  document.getElementById("video").srcObject = stream;
-}
-function capturePhoto() {
+            document.getElementById("preview").src =
+                renewData.photoUrl ||
+                ("https://gym-management-system-bjcd.onrender.com" + renewData.photo);
 
-  const video = document.getElementById("video");
+            document.getElementById("preview").style.display = "block";
+            document.getElementById("video").style.display = "none";
 
-  const canvas = document.createElement("canvas");
-
-  canvas.width = 300;
-  canvas.height = 400;
-
-  const ctx = canvas.getContext("2d");
-
-  ctx.drawImage(
-    video,
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
-
-  canvas.toBlob(blob => {
-
-    capturedFile = new File(
-      [blob],
-      "photo.jpg",
-      { type: "image/jpeg" }
-    );
-
-    document.getElementById("preview").src =
-      URL.createObjectURL(blob);
-
-    document.getElementById("preview").style.display = "block";
-
-    document.getElementById("video").style.display = "none";
-
-  });
-}
-
-/* PRICE */
-function calcPrice() {
-
-  const workout =
-    document.getElementById("workoutType").value;
-
-  const plan =
-    document.getElementById("plan").value;
-
-  let total = 0;
-
-  if (workout === "STRENGTH") {
-
-    if (plan === "1") total = 1249;
-    else if (plan === "3") total = 2999;
-    else if (plan === "6") total = 5499;
-    else if (plan === "12") total = 9999;
-
-  }
-
-  else if (workout === "CARDIO") {
-
-    if (plan === "1") total = 1499;
-    else if (plan === "3") total = 3499;
-    else if (plan === "6") total = 6499;
-    else if (plan === "12") total = 10999;
-
-  }
-
-  else if (workout === "BOTH") {
-
-    if (plan === "1") total = 1799;
-    else if (plan === "3") total = 4499;
-    else if (plan === "6") total = 7999;
-    else if (plan === "12") total = 12999;
-
-  }
-
-  document.getElementById("price").innerText = total;
-}
-/* SAVE MEMBER */
-
-async function submitMember(event) {
-  if (event) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  if (isSubmitting) {
-    return false;
-  }
-
-  isSubmitting = true;
-
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const age = document.getElementById("age").value.trim();
-  const weight = document.getElementById("weight").value.trim();
-
-  if (!name) {
-    isSubmitting = false;
-    alert("Please enter Name");
-    return;
-  }
-
-  if (!phone) {
-    isSubmitting = false;
-    alert("Please enter Phone Number");
-    return;
-  }
-
-  if (!age) {
-    isSubmitting = false;
-    alert("Please enter Age");
-    return;
-  }
-
-  if (!weight) {
-    isSubmitting = false;
-    alert("Please enter Weight");
-    return;
-  }
-
-  const renewData = JSON.parse(sessionStorage.getItem("renewMember"));
-
-  if (!capturedFile && !renewData) {
-    isSubmitting = false;
-    alert("Please capture Photo");
-    return;
-  }
-
-  if (!/^[0-9]{10}$/.test(phone)) {
-    isSubmitting = false;
-    alert("Phone number must be exactly 10 digits");
-    return;
-  }
-
-  if (Number(age) < 10 || Number(age) > 80) {
-    isSubmitting = false;
-    alert("Age must be between 10 and 80");
-    return;
-  }
-
-  if (Number(weight) < 0 || Number(weight) > 130) {
-    isSubmitting = false;
-    alert("Weight must be between 0 and 130");
-    return;
-  }
-
-  const formData = new FormData();
-
-  formData.append("name", name);
-  formData.append("phone", phone);
-  formData.append("age", age);
-  formData.append("weight", weight);
-  formData.append("joinDate", document.getElementById("joinDate").value);
-  formData.append("gender", document.getElementById("gender").value);
-  formData.append("workoutType", document.getElementById("workoutType").value);
-  formData.append("plan", document.getElementById("plan").value);
-  formData.append("paymentMode", document.getElementById("paymentMode").value);
-
-  if (capturedFile) {
-    formData.append("photo", capturedFile);
-  }
-
-  if (renewData) {
-    formData.append("existingPhoto", renewData.photo);
-  }
-
-  try {
-
-    let res;
-
-    if (renewData) {
-
-      res = await fetch(
-        `https://gym-management-system-bjcd.onrender.com/api/members/${renewData._id}/renew`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            plan: document.getElementById("plan").value,
-            joinDate: document.getElementById("joinDate").value,
-            paymentMode: document.getElementById("paymentMode").value
-          })
+            calcPrice();
         }
-      );
+    };
 
-    } else {
 
-      res = await fetch(
-        "https://gym-management-system-bjcd.onrender.com/api/members",
-        {
-          method: "POST",
-          body: formData
+    //Camera function
+
+    async function openCamera() {
+
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: "environment" } }
+        });
+
+        document.getElementById("video").srcObject = stream;
+    }
+
+    function capturePhoto() {
+
+        const video = document.getElementById("video");
+        const canvas = document.createElement("canvas");
+
+        canvas.width = 300;
+        canvas.height = 400;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        canvas.toBlob(blob => {
+
+            capturedFile = new File([blob], "photo.jpg", { type: "image/jpeg" });
+
+            document.getElementById("preview").src = URL.createObjectURL(blob);
+            document.getElementById("preview").style.display = "block";
+            document.getElementById("video").style.display = "none";
+        });
+    }
+
+    //Price calculation
+
+    function calcPrice() {
+
+        const workout = document.getElementById("workoutType").value;
+        const plan = document.getElementById("plan").value;
+
+        let total = 0;
+
+        if (workout === "STRENGTH") {
+            if (plan === "1") total = 1249;
+            else if (plan === "3") total = 2999;
+            else if (plan === "6") total = 5499;
+            else if (plan === "12") total = 9999;
         }
-      );
+
+        else if (workout === "CARDIO") {
+            if (plan === "1") total = 1499;
+            else if (plan === "3") total = 3499;
+            else if (plan === "6") total = 6499;
+            else if (plan === "12") total = 10999;
+        }
+
+        else if (workout === "BOTH") {
+            if (plan === "1") total = 1799;
+            else if (plan === "3") total = 4499;
+            else if (plan === "6") total = 7999;
+            else if (plan === "12") total = 12999;
+        }
+
+        document.getElementById("price").innerText = total;
     }
 
-    const data = await res.json();
+    //Submit member function
 
-    if (!res.ok) {
-      throw new Error(data.message || "Failed");
+    async function submitMember(event) {
+
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        if (isSubmitting) return false;
+        isSubmitting = true;
+
+        const name = document.getElementById("name").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const age = document.getElementById("age").value.trim();
+        const weight = document.getElementById("weight").value.trim();
+
+        if (!name || !phone || !age || !weight) {
+            isSubmitting = false;
+            alert("Please fill all fields");
+            return;
+        }
+
+        const renewData = JSON.parse(sessionStorage.getItem("renewMember"));
+
+        if (!capturedFile && !renewData) {
+            isSubmitting = false;
+            alert("Please capture Photo");
+            return;
+        }
+
+        if (!/^[0-9]{10}$/.test(phone)) {
+            isSubmitting = false;
+            alert("Invalid phone number");
+            return;
+        }
+
+        if (Number(age) < 10 || Number(age) > 80) {
+            isSubmitting = false;
+            alert("Invalid age");
+            return;
+        }
+
+        if (Number(weight) < 0 || Number(weight) > 130) {
+            isSubmitting = false;
+            alert("Invalid weight");
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("name", name);
+        formData.append("phone", phone);
+        formData.append("age", age);
+        formData.append("weight", weight);
+        formData.append("joinDate", document.getElementById("joinDate").value);
+        formData.append("gender", document.getElementById("gender").value);
+        formData.append("workoutType", document.getElementById("workoutType").value);
+        formData.append("plan", document.getElementById("plan").value);
+        formData.append("paymentMode", document.getElementById("paymentMode").value);
+
+        if (capturedFile) formData.append("photo", capturedFile);
+        if (renewData) formData.append("existingPhoto", renewData.photo);
+
+        try {
+
+            let res;
+
+            if (renewData) {
+
+                res = await fetch(
+                    `https://gym-management-system-bjcd.onrender.com/api/members/${renewData._id}/renew`,
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            plan: document.getElementById("plan").value,
+                            joinDate: document.getElementById("joinDate").value,
+                            paymentMode: document.getElementById("paymentMode").value
+                        })
+                    }
+                );
+
+            } else {
+
+                res = await fetch(
+                    "https://gym-management-system-bjcd.onrender.com/api/members",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+            }
+
+            const data = await res.json();
+
+            if (!res.ok) throw new Error(data.message || "Failed");
+
+            sessionStorage.removeItem("renewMember");
+
+            showCustomSuccessPopup(data.member || data, !!renewData, data.invoice);
+
+            isSubmitting = false;
+
+        } catch (err) {
+            isSubmitting = false;
+            alert(err.message);
+        }
     }
 
-    sessionStorage.removeItem("renewMember");
+    //Sucess modal after save member
 
-    showCustomSuccessPopup(
-      data.member || data,
-      !!renewData,
-      data.invoice
-    );
+    function showCustomSuccessPopup(member, isRenew, invoiceFromResponse) {
 
-    isSubmitting = false;
+        const modalEl = document.getElementById("successModal");
 
-    return false;
+        const invoiceUrl =
+            invoiceFromResponse ||
+            member.invoice ||
+            `https://gym-management-system-bjcd.onrender.com/invoices/${member._id}.pdf`;
 
-  } catch (err) {
+        document.getElementById("successTitle").innerText =
+            isRenew ? "Membership Renewed Successfully" : "Member Added Successfully";
 
-    isSubmitting = false;
+        document.getElementById("successMessage").innerText =
+            isRenew
+                ? "Membership renewed successfully."
+                : "Member added successfully.";
 
-    console.error("SAVE MEMBER ERROR =", err);
+        const phone = member.phone || document.getElementById("phone").value;
 
-    alert(err.message);
-  }
-}
+        const planMonths = parseInt(document.getElementById("plan").value || member.plan || 1);
+        const workoutType = document.getElementById("workoutType").value;
 
+        const planName = `${workoutType} - ${planMonths} Month`;
 
-function formatDisplayDate(value) {
-  const date = value ? new Date(value) : new Date();
+        const msg =
+            isRenew
+                ? `Renewed ${planName}`
+                : `Welcome ${planName}`;
 
-  if (Number.isNaN(date.getTime())) {
-    return "-";
-  }
+        document.getElementById("whatsappBtn").onclick = () => {
+            window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`);
+        };
 
-  return date.toLocaleDateString("en-GB");
-}
+        document.getElementById("invoiceBtn").onclick = () => {
+            window.open(invoiceUrl);
+        };
 
-// Show modal function
-function showCustomSuccessPopup(member, isRenew = false, invoiceFromResponse = "") {
-  const modalEl = document.getElementById("successModal");
+        document.getElementById("goBtn").onclick = () => {
+            location.href = "./members.html";
+        };
 
-  if (!modalEl) {
-    console.error("Success modal not found");
-    return;
-  }
+        modalEl.style.display = "block";
+        modalEl.classList.add("show");
+    }
 
-  const invoiceUrl =
-    invoiceFromResponse ||
-    member.invoice ||
-    `https://gym-management-system-bjcd.onrender.com/invoices/${member._id}.pdf`;
+    </script>
 
-  document.getElementById("successTitle").innerText =
-    isRenew ? "Membership Renewed Successfully" : "Member Added Successfully";
-
-  document.getElementById("successMessage").innerText =
-    isRenew
-      ? "Membership renewed successfully. You can send the receipt and invoice link on WhatsApp."
-      : "Member added successfully. You can send the welcome message and invoice link on WhatsApp.";
-
-  const phone =
-    member.phone ||
-    document.getElementById("phone").value;
-
-  const planMonths =
-    parseInt(document.getElementById("plan").value || member.plan || 1);
-
-  const workoutType =
-    member.workoutType ||
-    document.getElementById("workoutType").value;
-
-  const planName = `${workoutType} - ${planMonths} Month${planMonths > 1 ? "s" : ""}`;
-  const startDateText = formatDisplayDate(member.startDate || document.getElementById("joinDate").value);
-  const expiryDateText = formatDisplayDate(member.endDate);
-  const amount = member.amount || document.getElementById("price").innerText || "0";
-
-  const whatsappMessage = isRenew
-    ? `Hello ${member.name || "Member"},
-
-Your Veer Fitness Club membership has been renewed successfully.
-
-Renewal Details:
-Plan: ${planName}
-Start Date: ${startDateText}
-Expiry Date: ${expiryDateText}
-Amount Paid: Rs. ${amount}
-
-Invoice PDF:
-${invoiceUrl}
-
-Thank you for continuing your fitness journey with us. Stay consistent and keep training strong.`
-    : `Welcome to Veer Fitness Club, ${member.name || "Member"}!
-
-Your membership has been created successfully.
-
-Membership Details:
-Plan: ${planName}
-Start Date: ${startDateText}
-Expiry Date: ${expiryDateText}
-Amount Paid: Rs. ${amount}
-
-Invoice PDF:
-${invoiceUrl}
-
-Please keep this invoice for your records. We are happy to have you with us.`;
-
-  window._waPhone = phone;
-  window._waMessage = whatsappMessage;
-
-  document.getElementById("whatsappBtn").onclick = function(){
-    const encodedMessage = encodeURIComponent(window._waMessage);
-    const whatsappURL = `https://wa.me/91${window._waPhone}?text=${encodedMessage}`;
-    window.open(whatsappURL, "_blank");
-  };
-
-  document.getElementById("invoiceBtn").onclick = function(){
-    window.open(invoiceUrl, "_blank");
-  };
-
-  const oldBackdrop = document.getElementById("successModalBackdrop");
-
-  if (oldBackdrop) {
-    oldBackdrop.remove();
-  }
-
-  const backdrop = document.createElement("div");
-  backdrop.id = "successModalBackdrop";
-  backdrop.className = "modal-backdrop show";
-  document.body.appendChild(backdrop);
-
-  modalEl.style.display = "block";
-  modalEl.classList.add("show");
-  modalEl.removeAttribute("aria-hidden");
-  modalEl.setAttribute("aria-modal", "true");
-  modalEl.setAttribute("role", "dialog");
-  document.body.classList.add("modal-open");
-
-  document.getElementById("goBtn").onclick = function () {
-    modalEl.style.display = "none";
-    modalEl.classList.remove("show");
-    modalEl.removeAttribute("aria-modal");
-    modalEl.removeAttribute("role");
-    document.body.classList.remove("modal-open");
-    backdrop.remove();
-    location.href = "./members.html";
-  };
-
-}
-
-
-</script>
 </body>
 </html>

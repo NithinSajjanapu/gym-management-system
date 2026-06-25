@@ -1,480 +1,386 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Members List</title>
+    <title>Members List</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<style>
-
-body{
-    margin:0;
-    font-family:"Segoe UI", Arial, sans-serif;
-    background:url("https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1600&q=80");
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
-}
-
-.overlay{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.75);
-    z-index:0;
-}
-
-.container{
-    position:relative;
-    z-index:2;
-}
-
-h2{
-    color:gold;
-    text-align:center;
-    margin-top:20px;
-    font-weight:900;
-}
-
-.form-control{
-    background:rgba(0,0,0,0.85)!important;
-    color:white!important;
-    border:2px solid gold!important;
-}
-
-/* ===== NEW CARD DESIGN ===== */
-.member-card{
-    background:rgba(15,15,15,0.95);
-    border:2px solid gold;
-    border-radius:10px;
-    padding:15px;
-    cursor:pointer;
-    transition:.3s;
-    color:white;
-    font-family:"Segoe UI", Arial, sans-serif;
-}
-
-.member-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 0 18px gold;
-}
-
-.card-top{
-    display:flex;
-    gap:12px;
-    align-items:center;
-}
-
-.member-photo{
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    object-fit:cover;
-    border:2px solid gold;
-}
-
-.card-title{
-    font-size:16px;
-    font-weight:bold;
-    color:gold;
-}
-
-.card-sub{
-    font-size:13px;
-    color:#ccc;
-}
-
-.card-box{
-    margin-top:10px;
-    border-top:1px dashed gold;
-    padding-top:10px;
-    font-size:13px;
-}
-
-.status{
-    float:right;
-    padding:3px 8px;
-    border-radius:5px;
-    font-size:11px;
-    font-weight:bold;
-}
-
-.active{
-    background:green;
-    color:white;
-}
-
-.inactive{
-    background:red;
-    color:white;
-}
-
-/* modal */
-
-.modal-dialog{
-    max-width:600px;
-}
-
-.modal-content{
-    transform: scale(0.90);
-    transform-origin: center;
-    margin-bottom: 100px;
-}
-
-.modal-content{
-    background:#111827;
-    color:white;
-    border:2px solid gold;
-    border-radius:14px;
-    box-shadow:0 18px 45px rgba(0,0,0,0.45);
-}
-
-.modal-title{
-    color:gold;
-    font-weight:900;
-    letter-spacing:.3px;
-}
-
-.table{
-    color:white;
-}
-
-.member-profile{
-    text-align:center;
-    margin-bottom:18px;
-}
-
-.member-profile img{
-    width:145px;
-    height:145px;
-    border-radius:50%;
-    object-fit:cover;
-    border:4px solid rgb(12, 11, 2);
-    box-shadow:0 0 24px rgba(255,215,0,0.25);
-}
-
-.member-profile h4{
-    margin:12px 0 2px;
-    color:#f6a000;
-    font-size:24px;
-    font-weight:800;
-}
-
-.member-profile p{
-    margin:0;
-    color:#d1d5db;
-    font-size:14px;
-}
-
-.details-table{
-    font-family:"Segoe UI", Arial, sans-serif;
-    font-size:15px;
-}
-
-.details-table th{
-    color:#facc15;
-    width:38%;
-    font-weight:700;
-}
-
-.details-table td{
-    color:#f9fafb;
-}
-
-</style>
-<link href="../assets/css/style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
 
-<div class="overlay"></div>
+    <div class="overlay"></div>
 
-<div class="container">
+    <div class="container">
 
-    <h2>👥 MEMBERS LIST</h2>
+        <!-- Page Title -->
+        <h2>👥 MEMBERS LIST</h2>
 
-    <input type="text" class="form-control my-3"
-        placeholder="Search Name / Phone"
-        onkeyup="searchMembers(this.value)">
+        <!-- Search -->
+        <input
+            type="text"
+            class="form-control my-3"
+            placeholder="Search Name / Phone"
+            onkeyup="searchMembers(this.value)"
+        >
 
-    <div class="filter-grid three">
-        <button class="btn btn-primary btn-sm" id="filterAll" onclick="setMemberFilter('all')">All</button>
-        <button class="btn btn-success btn-sm" id="filterActive" onclick="setMemberFilter('active')">Active</button>
-        <button class="btn btn-danger btn-sm" id="filterExpired" onclick="setMemberFilter('expired')">Expired</button>
+        <!-- Filter Buttons -->
+        <div class="filter-grid three">
+
+            <button
+                class="btn btn-primary btn-sm"
+                id="filterAll"
+                onclick="setMemberFilter('all')"
+            >
+                All
+            </button>
+
+            <button
+                class="btn btn-success btn-sm"
+                id="filterActive"
+                onclick="setMemberFilter('active')"
+            >
+                Active
+            </button>
+
+            <button
+                class="btn btn-danger btn-sm"
+                id="filterExpired"
+                onclick="setMemberFilter('expired')"
+            >
+                Expired
+            </button>
+
+        </div>
+
+        <!-- Members Grid -->
+        <div class="row" id="membersContainer"></div>
+
     </div>
 
-    <div class="row" id="membersContainer"></div>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
 
-</div>
+        <a href="dashboard.html"><span>⌂</span>Home</a>
 
-<nav class="bottom-nav">
-  <a href="dashboard.html"><span>⌂</span>Home</a>
-  <a class="active-link" href="members.html"><span>☷</span>Members</a>
-  <a class="add-action" href="add-member.html"><span>+</span></a>
-  <a href="expiry.html"><span>◴</span>Expiry</a>
-  <a href="dashboard.html#transactionBox"><span>≡</span>More</a>
-</nav>
+        <a class="active-link" href="members.html"><span>☷</span>Members</a>
 
-<!-- MODAL -->
-<div class="modal fade" id="memberModal">
-<div class="modal-dialog modal-lg">
-<div class="modal-content">
+        <a class="add-action" href="add-member.html"><span>+</span></a>
 
-<div class="modal-header">
+        <a href="expiry.html"><span>◴</span>Expiry</a>
 
-    <h5 class="modal-title">Member Details</h5>
+        <a href="dashboard.html#transactionBox"><span>≡</span>More</a>
 
-    <button
-        type="button"
-        class="modal-back-btn"
-        data-bs-dismiss="modal">
-        ✕
-    </button>
+    </nav>
 
-</div>
+    <!-- Member Modal -->
+    <div class="modal fade" id="memberModal">
 
-<div class="modal-body" id="modalContent"></div>
+        <div class="modal-dialog modal-lg">
 
-</div>
-</div>
-</div>
+            <div class="modal-content">
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../assets/js/api.js"></script>
-<script>
-const memberModalEl = document.getElementById("memberModal");
-const bottomNav = document.querySelector(".bottom-nav");
+                <!-- Modal Header -->
+                <div class="modal-header">
 
-memberModalEl.addEventListener("show.bs.modal", () => {
-    bottomNav.classList.add("hide-nav");
-});
+                    <h5 class="modal-title">Member Details</h5>
 
-memberModalEl.addEventListener("hidden.bs.modal", () => {
-    bottomNav.classList.remove("hide-nav");
-});
-</script>
-<script>
-
-let members=[];
-let currentMemberFilter = "all";
-let currentSearch = "";
-
-async function loadMembers(){
-    members=await getMembers();
-    const params = new URLSearchParams(location.search);
-    const filter = params.get("filter");
-
-    if (["all", "active", "expired"].includes(filter)) {
-        currentMemberFilter = filter;
-    }
-
-    applyMemberFilters();
-}
-
-
-function formatDate(dateValue) {
-    const d = new Date(dateValue);
-
-    if (isNaN(d)) return "-";
-
-    const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const year = d.getFullYear();
-
-    return `${day}/${month}/${year}`;
-}
-
-function isExpiredMember(member) {
-    if (member.status === "EXPIRED") return true;
-
-    const end = new Date(member.endDate);
-    const today = new Date();
-
-    if (isNaN(end)) return false;
-
-    today.setHours(0, 0, 0, 0);
-    end.setHours(0, 0, 0, 0);
-
-    return end < today;
-}
-
-function setMemberFilter(filter) {
-    currentMemberFilter = filter;
-    const url = new URL(location.href);
-    url.searchParams.set("filter", filter);
-    history.replaceState(null, "", url);
-    applyMemberFilters();
-}
-
-function updateFilterButtons() {
-    const map = {
-        all: "filterAll",
-        active: "filterActive",
-        expired: "filterExpired"
-    };
-
-    Object.entries(map).forEach(([filter, id]) => {
-        const btn = document.getElementById(id);
-        if (!btn) return;
-        btn.classList.toggle("active-link", currentMemberFilter === filter);
-        btn.style.opacity = currentMemberFilter === filter ? "1" : ".72";
-    });
-}
-
-function applyMemberFilters() {
-    let filtered = [...members];
-
-    if (currentMemberFilter === "active") {
-        filtered = filtered.filter(m => !isExpiredMember(m));
-    }
-
-    if (currentMemberFilter === "expired") {
-        filtered = filtered.filter(isExpiredMember);
-    }
-
-    if (currentSearch) {
-        const value = currentSearch.toLowerCase();
-        filtered = filtered.filter(m =>
-            (m.name || "").toLowerCase().includes(value) ||
-            (m.phone || "").includes(currentSearch)
-        );
-    }
-
-    updateFilterButtons();
-    renderCards(filtered);
-}
-
-
-
-/* ===== UPDATED CARD UI ONLY ===== */
-function renderCards(data){
-
-    let html="";
-
-    data.forEach(m=>{
-
-        const photo = m.photoUrl || "https://via.placeholder.com/100";
-
-        html+=`
-        <div class="col-md-4 mb-4">
-
-            <div class="member-card" onclick='showMember(${JSON.stringify(m)})'>
-
-                <div class="card-top">
-
-                    <img src="${photo}"
-                        onerror="this.src='https://via.placeholder.com/100'"
-                        class="member-photo">
-
-                    <div>
-                        <div class="card-title">${m.name}</div>
-                        <div class="card-sub">${m.phone}</div>
-                    </div>
-
-                    <span class="status ${m.status==="ACTIVE"?"active":"inactive"}">
-                        ${m.status}
-                    </span>
+                    <button
+                        type="button"
+                        class="modal-back-btn"
+                        data-bs-dismiss="modal"
+                    >
+                        ✕
+                    </button>
 
                 </div>
 
-                <div class="card-box">
-
-                    <div>📦 Plan : ${m.plan}</div>
-                    <div>📅 Start : ${formatDate(m.startDate)}</div>
-                    <div>📅 End : ${formatDate(m.endDate)}</div>
-                    </div>
+                <!-- Modal Body -->
+                <div class="modal-body" id="modalContent"></div>
 
             </div>
 
         </div>
-        `;
-    });
 
-    document.getElementById("membersContainer").innerHTML=html;
-}
-
-/* ===== MODAL (clean but same data) ===== */
-function showMember(m){
-
-    const photo = m.photoUrl || "https://via.placeholder.com/150";
-
-    document.getElementById("modalContent").innerHTML = `
-
-    <div class="member-profile">
-        <img src="${photo}"
-        onerror="this.src='https://via.placeholder.com/150'"
-        alt="${m.name}">
-        <h4>${m.name}</h4>
-        <p>${m.phone}</p>
     </div>
 
-    <table class="table table-dark details-table">
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/api.js"></script>
 
-      <tr><th>Age</th><td>${m.age}</td></tr>
-      <tr><th>Weight</th><td>${m.weight || "-"}</td></tr>
-      <tr><th>Gender</th><td>${m.gender}</td></tr>
-      <tr><th>Workout</th><td>${m.workoutType}</td></tr>
-      <tr><th>Plan</th><td>${m.plan}</td></tr>
-      <tr><th>Amount</th><td>₹${m.amount}</td></tr>
-      <tr><th>Status</th><td>${m.status}</td></tr>
-      <tr><th>Start Date</th><td>${formatDate(m.startDate)}</td></tr>
-      <tr><th>Expiry Date</th><td>${formatDate(m.endDate)}</td></tr>
+    <script>
 
+        const memberModalEl = document.getElementById("memberModal");
+        const bottomNav = document.querySelector(".bottom-nav");
 
-    </table>
+        // Hide bottom navigation when modal opens
+        memberModalEl.addEventListener("show.bs.modal", () => {
+            bottomNav.classList.add("hide-nav");
+        });
 
-    <button class="btn btn-danger" onclick="removeMember('${m._id}')">
-      Delete Member
-    </button>
+        // Show bottom navigation when modal closes
+        memberModalEl.addEventListener("hidden.bs.modal", () => {
+            bottomNav.classList.remove("hide-nav");
+        });
 
-    `;
+    </script>
 
-    new bootstrap.Modal(document.getElementById("memberModal")).show();
-}
+    <script>
 
+        // State
+        let members = [];
+        let currentMemberFilter = "all";
+        let currentSearch = "";
 
-async function removeMember(id) {
+        // Load members
+        async function loadMembers() {
 
-    const ok = confirm(
-        "Are you sure you want to delete this member?"
-    );
+            members = await getMembers();
 
-    if (!ok) return;
+            const params = new URLSearchParams(location.search);
+            const filter = params.get("filter");
 
-    try {
+            if (["all", "active", "expired"].includes(filter)) {
+                currentMemberFilter = filter;
+            }
 
-        const result = await deleteMember(id);
+            applyMemberFilters();
+        }
 
-        alert(result.message || "Member Deleted");
+        // Format date
+        function formatDate(dateValue) {
 
-        bootstrap.Modal
-            .getInstance(
+            const d = new Date(dateValue);
+
+            if (isNaN(d)) return "-";
+
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const year = d.getFullYear();
+
+            return `${day}/${month}/${year}`;
+        }
+
+        // Check expiry
+        function isExpiredMember(member) {
+
+            if (member.status === "EXPIRED") return true;
+
+            const end = new Date(member.endDate);
+            const today = new Date();
+
+            if (isNaN(end)) return false;
+
+            today.setHours(0, 0, 0, 0);
+            end.setHours(0, 0, 0, 0);
+
+            return end < today;
+        }
+
+        // Set filter
+        function setMemberFilter(filter) {
+
+            currentMemberFilter = filter;
+
+            const url = new URL(location.href);
+            url.searchParams.set("filter", filter);
+
+            history.replaceState(null, "", url);
+
+            applyMemberFilters();
+        }
+
+        // Update filter button UI
+        function updateFilterButtons() {
+
+            const map = {
+                all: "filterAll",
+                active: "filterActive",
+                expired: "filterExpired"
+            };
+
+            Object.entries(map).forEach(([filter, id]) => {
+
+                const btn = document.getElementById(id);
+
+                if (!btn) return;
+
+                btn.classList.toggle(
+                    "active-link",
+                    currentMemberFilter === filter
+                );
+
+                btn.style.opacity =
+                    currentMemberFilter === filter ? "1" : ".72";
+            });
+        }
+
+        // Apply filters
+        function applyMemberFilters() {
+
+            let filtered = [...members];
+
+            if (currentMemberFilter === "active") {
+                filtered = filtered.filter(m => !isExpiredMember(m));
+            }
+
+            if (currentMemberFilter === "expired") {
+                filtered = filtered.filter(isExpiredMember);
+            }
+
+            if (currentSearch) {
+
+                const value = currentSearch.toLowerCase();
+
+                filtered = filtered.filter(m =>
+                    (m.name || "").toLowerCase().includes(value) ||
+                    (m.phone || "").includes(currentSearch)
+                );
+            }
+
+            updateFilterButtons();
+            renderCards(filtered);
+        }
+
+        // Render member cards
+        function renderCards(data) {
+
+            let html = "";
+
+            data.forEach(m => {
+
+                const photo = m.photoUrl || "https://via.placeholder.com/100";
+
+                html += `
+                    <div class="col-md-4 mb-4">
+
+                        <div class="member-card" onclick='showMember(${JSON.stringify(m)})'>
+
+                            <div class="card-top">
+
+                                <img
+                                    src="${photo}"
+                                    onerror="this.src='https://via.placeholder.com/100'"
+                                    class="member-photo"
+                                >
+
+                                <div>
+                                    <div class="card-title">${m.name}</div>
+                                    <div class="card-sub">${m.phone}</div>
+                                </div>
+
+                                <span class="status ${m.status === "ACTIVE" ? "active" : "inactive"}">
+                                    ${m.status}
+                                </span>
+
+                            </div>
+
+                            <div class="card-box">
+
+                                <div>📦 Plan : ${m.plan}</div>
+                                <div>📅 Start : ${formatDate(m.startDate)}</div>
+                                <div>📅 End : ${formatDate(m.endDate)}</div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                `;
+            });
+
+            document.getElementById("membersContainer").innerHTML = html;
+        }
+
+        // Show member modal
+        function showMember(m) {
+
+            const photo = m.photoUrl || "https://via.placeholder.com/150";
+
+            document.getElementById("modalContent").innerHTML = `
+
+                <div class="member-profile">
+
+                    <img
+                        src="${photo}"
+                        onerror="this.src='https://via.placeholder.com/150'"
+                        alt="${m.name}"
+                    >
+
+                    <h4>${m.name}</h4>
+                    <p>${m.phone}</p>
+
+                </div>
+
+                <table class="table table-dark details-table">
+
+                    <tr><th>Age</th><td>${m.age}</td></tr>
+                    <tr><th>Weight</th><td>${m.weight || "-"}</td></tr>
+                    <tr><th>Gender</th><td>${m.gender}</td></tr>
+                    <tr><th>Workout</th><td>${m.workoutType}</td></tr>
+                    <tr><th>Plan</th><td>${m.plan}</td></tr>
+                    <tr><th>Amount</th><td>₹${m.amount}</td></tr>
+                    <tr><th>Status</th><td>${m.status}</td></tr>
+                    <tr><th>Start Date</th><td>${formatDate(m.startDate)}</td></tr>
+                    <tr><th>Expiry Date</th><td>${formatDate(m.endDate)}</td></tr>
+
+                </table>
+
+                <button
+                    class="btn btn-danger"
+                    onclick="removeMember('${m._id}')"
+                >
+                    Delete Member
+                </button>
+
+            `;
+
+            new bootstrap.Modal(
                 document.getElementById("memberModal")
-            )
-            .hide();
+            ).show();
+        }
+
+        // Delete member
+        async function removeMember(id) {
+
+            const ok = confirm("Are you sure you want to delete this member?");
+
+            if (!ok) return;
+
+            try {
+
+                const result = await deleteMember(id);
+
+                alert(result.message || "Member Deleted");
+
+                bootstrap.Modal
+                    .getInstance(document.getElementById("memberModal"))
+                    .hide();
+
+                loadMembers();
+
+            } catch (err) {
+
+                console.error(err);
+                alert("Delete Failed");
+            }
+        }
+
+        // Search members
+        function searchMembers(value) {
+
+            currentSearch = value.trim();
+
+            applyMemberFilters();
+        }
 
         loadMembers();
 
-    } catch (err) {
-
-        console.error(err);
-
-        alert("Delete Failed");
-
-    }
-}
-
-
-function searchMembers(value){
-    currentSearch = value.trim();
-    applyMemberFilters();
-}
-
-loadMembers();
-
-</script>
+    </script>
 
 </body>
+
 </html>
