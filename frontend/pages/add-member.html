@@ -198,9 +198,12 @@
             document.getElementById("workoutType").value = renewData.workoutType || "STRENGTH";
             document.getElementById("plan").value = renewData.plan || "1";
 
-            document.getElementById("preview").src =
-                renewData.photoUrl ||
-                ("https://gym-management-system-bjcd.onrender.com" + renewData.photo);
+            const photo =
+                renewData.photo.startsWith("http")
+                    ? renewData.photo
+                    : "https://gym-management-system-bjcd.onrender.com" + renewData.photo;
+
+            document.getElementById("preview").src = photo;
 
             document.getElementById("preview").style.display = "block";
             document.getElementById("video").style.display = "none";
