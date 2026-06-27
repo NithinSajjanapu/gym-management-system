@@ -417,10 +417,57 @@
 
         const planName = `${workoutType} - ${planMonths} Month`;
 
-        const msg =
-            isRenew
-                ? `Renewed ${planName}`
-                : `Welcome ${planName}`;
+        const startDate = new Date(member.startDate || document.getElementById("joinDate").value)
+            .toLocaleDateString("en-GB");
+
+        const endDate = new Date(member.endDate)
+            .toLocaleDateString("en-GB");
+
+        const amount =
+            member.amount ||
+            document.getElementById("price").innerText;
+
+        const msg = isRenew
+        ? `✅ Membership Renewed Successfully!
+
+        Hi ${member.name},
+
+        Your membership has been successfully renewed. 🎉
+
+        👤 Member Name : ${member.name}
+        📅 Plan        : ${planName}
+        🟢 Renewed On  : ${startDate}
+        🔴 Expires On  : ${endDate}
+        💰 Amount Paid : ₹${amount}
+
+        Thank you for continuing your fitness journey with Veer Fitness Club.
+
+        📄 Your Invoice:
+        ${invoiceUrl}
+
+        Keep training hard. See you at the gym!
+
+        💪 Team Veer Fitness Club`
+        : `🏋️ Welcome to Veer Fitness Club!
+
+        Hi ${member.name},
+
+        Your membership has been successfully activated. 🎉
+
+        👤 Member Name : ${member.name}
+        📅 Plan        : ${planName}
+        🟢 Activated   : ${startDate}
+        🔴 Expires On  : ${endDate}
+        💰 Amount Paid : ₹${amount}
+
+        We're excited to be a part of your fitness journey. Stay consistent, stay strong, and achieve your fitness goals with us.
+
+        📄 Your Invoice:
+        ${invoiceUrl}
+
+        Thank you for choosing Veer Fitness Club.
+
+        💪 Team Veer Fitness Club`;
 
         document.getElementById("whatsappBtn").onclick = () => {
             window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`);
