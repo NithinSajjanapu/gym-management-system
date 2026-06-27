@@ -647,7 +647,26 @@ option {
   background: #f4ebff;
   border-radius: 16px;
 }
+.bottom-nav::before{
+    content:"";
 
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:100%;
+
+    height:35px;
+
+    pointer-events:none;
+
+    background:linear-gradient(
+        to top,
+        rgba(245,247,251,1) 0%,
+        rgba(245,247,251,.9) 25%,
+        rgba(245,247,251,.6) 55%,
+        rgba(245,247,251,0) 100%
+    );
+}
 /* floating add button */
 .bottom-nav .add-action {
   width: 60px;
