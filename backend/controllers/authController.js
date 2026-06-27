@@ -44,7 +44,7 @@ exports.loginAdmin = async (req, res) => {
         role: "admin"   // FIX IMPORTANT
       },
       process.env.JWT_SECRET,
-      { expiresIn: "10m" }
+      { expiresIn: "1h" }
     );
 
     res.json({
