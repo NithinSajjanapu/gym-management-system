@@ -348,7 +348,10 @@
                     `https://gym-management-system-bjcd.onrender.com/api/members/${renewData._id}/renew`,
                     {
                         method: "POST",
-                        headers: { "Content-Type": "application/json" },
+                        headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`
+                                },
                         body: JSON.stringify({
                             plan: document.getElementById("plan").value,
                             joinDate: document.getElementById("joinDate").value,
@@ -362,8 +365,11 @@
                 res = await fetch(
                     "https://gym-management-system-bjcd.onrender.com/api/members",
                     {
-                        method: "POST",
-                        body: formData
+                        method:"POST",
+                        headers:{
+                            Authorization:`Bearer ${token}`
+                        },
+                        body:formData
                     }
                 );
             }
