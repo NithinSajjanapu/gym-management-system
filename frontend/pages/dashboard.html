@@ -158,6 +158,7 @@
         // If not logged in, go back to login page
         if (!token) {
             window.location.href = "login.html";
+            throw new Error("Unauthorixed");
         }
 
         async function getDashboard() {

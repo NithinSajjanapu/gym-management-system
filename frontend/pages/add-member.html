@@ -157,6 +157,7 @@
 
     if (!token) {
         window.location.href = "login.html";
+        throw new Error("Unauthorixed");
     }
 
     //Global State
