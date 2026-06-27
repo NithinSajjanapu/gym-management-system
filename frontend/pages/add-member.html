@@ -428,9 +428,7 @@
             document.getElementById("price").innerText;
 
         const msg = isRenew
-        ? `✅ Membership Renewed Successfully!
-
-Hi ${member.name},
+        ? `Hi ${member.name},
 Your membership has been successfully renewed. 🎉
 
 Plan        : ${planName}
@@ -442,7 +440,7 @@ Thank you for continuing your fitness journey with Veer Fitness Club.
 
 📄 Your Invoice:${invoiceUrl}
 
-Thank you for choosing Veer Fitness Club.`
+        -Veer Fitness Club.`
         : `Welcome to Veer Fitness Club!
 
 Hi ${member.name},
@@ -457,7 +455,7 @@ We're excited to be a part of your fitness journey. Stay consistent.
 
 📄 Your Invoice:${invoiceUrl}
 
-Thank you for choosing Veer Fitness Club.`;
+        -Veer Fitness Club`;
 
         document.getElementById("whatsappBtn").onclick = () => {
             window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`);

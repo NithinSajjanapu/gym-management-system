@@ -132,26 +132,42 @@
 
         //Whatsapp message Templetes
 
-        function formatMessage(m){
+        function formatMessage(m) {
 
-        if(m.daysRemaining < 0){
-            return `Hello ${m.name},
+        const expiryDate = new Date(m.endDate).toLocaleDateString("en-GB");
 
-        Your Veer Fitness Club membership has expired.
+        const plan =
+            `${m.workoutType} - ${m.plan} ${Number(m.plan) === 1 ? "Month" : "Months"}`;
 
-        Expired On: ${new Date(m.endDate).toLocaleDateString()}
+        if (m.daysRemaining < 0) {
 
-        Please renew your plan to continue training without interruption. We will be happy to help you restart today.`;
+            return `⚠️ Membership Expired
+
+Hi ${m.name},
+Your Veer Fitness Club membership has expired.
+
+Plan        : ${plan}
+Expired On  : ${expiryDate}
+
+Please renew your membership to continue your fitness journey without interruption.
+We look forward to welcoming you back!
+
+        -Veer Fitness Club`;
         }
 
-        return `Hello ${m.name},
+        return `⏰ Membership Expiry Reminder
 
-        Your Veer Fitness Club membership is expiring in ${m.daysRemaining} day(s).
+Hi ${m.name},
+This is a friendly reminder that your Veer Fitness Club membership will expire soon.
 
-        Expiry Date: ${new Date(m.endDate).toLocaleDateString()}
+Plan        : ${plan}
+Expiry Date : ${expiryDate}
+Days Left   : ${m.daysRemaining}
 
-        Please renew soon to continue your fitness journey without a break.`;
-        }
+Please renew your membership before the expiry date to continue enjoying uninterrupted access to the gym.
+
+        -Veer Fitness Club`;
+    }
 
        //Whatsapp action
 
