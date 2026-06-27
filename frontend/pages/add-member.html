@@ -430,44 +430,34 @@
         const msg = isRenew
         ? `✅ Membership Renewed Successfully!
 
-        Hi ${member.name},
+Hi ${member.name},
+Your membership has been successfully renewed. 🎉
 
-        Your membership has been successfully renewed. 🎉
+Plan        : ${planName}
+Renewed On  : ${startDate}
+Expires On  : ${endDate}
+Amount Paid : ₹${amount}
 
-        👤 Member Name : ${member.name}
-        📅 Plan        : ${planName}
-        🟢 Renewed On  : ${startDate}
-        🔴 Expires On  : ${endDate}
-        💰 Amount Paid : ₹${amount}
+Thank you for continuing your fitness journey with Veer Fitness Club.
 
-        Thank you for continuing your fitness journey with Veer Fitness Club.
+📄 Your Invoice:${invoiceUrl}
 
-        📄 Your Invoice:
-        ${invoiceUrl}
+Thank you for choosing Veer Fitness Club.`
+        : `Welcome to Veer Fitness Club!
 
-        Keep training hard. See you at the gym!
+Hi ${member.name},
+Your membership has been successfully activated. 🎉
 
-        💪 Team Veer Fitness Club`
-        : `🏋️ Welcome to Veer Fitness Club!
+Plan        : ${planName}
+Activated   : ${startDate}
+Expires On  : ${endDate}
+Amount Paid : ₹${amount}
 
-        Hi ${member.name},
+We're excited to be a part of your fitness journey. Stay consistent.
 
-        Your membership has been successfully activated. 🎉
+📄 Your Invoice:${invoiceUrl}
 
-        👤 Member Name : ${member.name}
-        📅 Plan        : ${planName}
-        🟢 Activated   : ${startDate}
-        🔴 Expires On  : ${endDate}
-        💰 Amount Paid : ₹${amount}
-
-        We're excited to be a part of your fitness journey. Stay consistent, stay strong, and achieve your fitness goals with us.
-
-        📄 Your Invoice:
-        ${invoiceUrl}
-
-        Thank you for choosing Veer Fitness Club.
-
-        💪 Team Veer Fitness Club`;
+Thank you for choosing Veer Fitness Club.`;
 
         document.getElementById("whatsappBtn").onclick = () => {
             window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`);
