@@ -89,7 +89,36 @@ h3 {
 .container-box {
   max-width: 520px !important;
 }
+/* =========================================================
+   TRANSACTION PAYMENT SPLIT
+========================================================= */
 
+.payment-split-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px !important;
+}
+
+.payment-half{
+    flex:1;
+    text-align:center;
+}
+
+.payment-title{
+    color:#fff;
+    font-size:14px;
+    font-weight:400;
+    margin-bottom:10px;
+    letter-spacing:.5px;
+}
+
+.payment-divider{
+    width:1px;
+    align-self:stretch;
+    background:rgba(255,255,255,.35);
+    margin:0 20px;
+}
 /* =========================================================
    HEADER
 ========================================================= */
@@ -109,10 +138,7 @@ h3 {
 /* =========================================================
    CARDS / BOXES
 ========================================================= */
-.card-box,
-.section-box,
-.member-card,
-.modal-content {
+.card-box{
   background: rgba(255, 255, 255, .92) !important;
   color: var(--ink) !important;
 
@@ -123,6 +149,24 @@ h3 {
   backdrop-filter: blur(18px);
 
   transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.section-box,
+.member-card,
+.modal-content {
+  background: rgba(255,255,255,.92) !important;
+  color: var(--ink) !important;
+
+  border:1px solid rgba(255,255,255,.82) !important;
+  border-radius:24px !important;
+
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(18px);
+
+  padding:18px;
+  margin-bottom:22px;
+
+  transition:transform .2s ease,box-shadow .2s ease;
 }
 
 /* primary gradient card */
@@ -147,14 +191,24 @@ h3 {
   box-shadow: 0 12px 30px rgba(109, 53, 255, .35) !important;
 }
 
+
 /* =========================================================
    TEXT / TITLES
 ========================================================= */
-.section-title {
-  color: var(--ink) !important;
-  font-size: 16px;
-  font-weight: 800 !important;
-  margin-bottom: 16px !important;
+.section-title{
+
+    display:flex;
+    align-items:center;
+
+    margin-bottom:16px;
+
+    font-size:18px;
+    font-weight:400;
+
+    color:var(--ink);
+
+    letter-spacing:.3px;
+
 }
 
 .card-title {
@@ -603,7 +657,9 @@ option {
   align-items: center;
   justify-content: center;
 
-  transform: translateY(-16px);
+  transform: translate(-50%, -16px);
+  left: 50%;
+  position: absolute;
 
   color: white;
   background: linear-gradient(135deg, var(--blue), var(--purple));
@@ -680,7 +736,21 @@ option {
     width: 100%;
   }
 }
+@media (max-width:768px){
 
+    .payment-split-card{
+        padding:18px !important;
+    }
+
+    .payment-divider{
+        margin:0 12px;
+    }
+
+    .payment-title{
+        font-size:13px;
+    }
+
+}
 /* =========================================================
    ADD MEMBER PAGE
 ========================================================= */
