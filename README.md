@@ -3,6 +3,42 @@ Project Description
 
 The Veer Fitness Club – Gym Management System is a web application developed to simplify the daily management activities of a gym. In many small and medium-sized fitness centers, member details, payments, and membership renewals are still handled manually using notebooks or spreadsheets. This often leads to errors, missed renewals, and difficulty in maintaining records. To solve these problems, I developed this application to provide a simple, secure, and efficient digital solution.
 
+Technologies Used
+
+Frontend
+
+HTML5
+CSS3
+JavaScript (Vanilla)
+Bootstrap 5
+
+Backend
+
+Node.js
+Express.js
+
+Database
+
+MongoDB Atlas
+
+Authentication
+
+JWT (JSON Web Token)
+
+Image Storage
+
+Cloudinary
+
+Invoice Generation
+
+PDF Generator
+
+Deployment
+
+Frontend : Vercel
+Backend : Render
+Database : MongoDB Atlas
+
 The system allows the gym owner to manage the complete member lifecycle, starting from new member registration to membership renewal, payment tracking, invoice generation, and expiry monitoring. It also provides a dashboard that gives an instant overview of the gym's current status, including total members, active memberships, expired memberships, upcoming renewals, and total revenue.
 
 When a new member joins the gym, the administrator enters personal details such as name, phone number, age, weight, gender, workout type, membership plan, and payment mode. The application also provides an integrated camera feature to capture the member's photograph directly from the device. The captured image is securely uploaded to Cloudinary, ensuring that photos remain safely stored without occupying server storage.
