@@ -108,7 +108,13 @@
     </script>
 
     <script>
+        //Token 
+        const token = localStorage.getItem("token");
 
+        if (!token) {
+            window.location.href = "login.html";
+        }
+        
         //Global states
 
         let members = [];

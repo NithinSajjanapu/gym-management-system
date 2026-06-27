@@ -1,12 +1,15 @@
 const express = require("express");
 const router = express.Router();
-
+const { protect, adminOnly } = require("../middlewares/authMiddleware");
 const {
   addPayment,
   getPayments,
   getPaymentsByDate
 } = require("../controllers/paymentController");
 
+
+router.use(protect);
+router.use(adminOnly);
 // ADD PAYMENT
 router.post("/", addPayment);
 

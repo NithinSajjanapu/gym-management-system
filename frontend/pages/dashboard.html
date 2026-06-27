@@ -153,13 +153,45 @@
 
         const BASE_URL = "https://gym-management-system-bjcd.onrender.com/api";
 
+        const token = localStorage.getItem("token");
+
+        // If not logged in, go back to login page
+        if (!token) {
+            window.location.href = "login.html";
+        }
+
         async function getDashboard() {
-            const res = await fetch(`${BASE_URL}/dashboard`);
+
+            const res = await fetch(`${BASE_URL}/dashboard`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            // Invalid or expired token
+            if (res.status === 401) {
+                localStorage.removeItem("token");
+                window.location.href = "login.html";
+                return;
+            }
+
             return await res.json();
         }
 
         async function getExpiring() {
-            const res = await fetch(`${BASE_URL}/members/expiry-list`);
+
+            const res = await fetch(`${BASE_URL}/members/expiry-list`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (res.status === 401) {
+                localStorage.removeItem("token");
+                window.location.href = "login.html";
+                return [];
+            }
+
             const data = await res.json();
 
             return data.filter(m => m.daysRemaining <= 2);
